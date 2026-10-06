@@ -9,14 +9,14 @@
 **公网地址（所有人可直接打开，无需安装任何东西）：**
 
 ```
-https://<用户名>.github.io/<仓库名>/
+https://wyzazzy.github.io/shitangzuoye/
 ```
-
-> 首次部署请把上面地址中的 `<用户名>` 与 `<仓库名>` 换成你自己的 GitHub 用户名和仓库名；
-> 页面上「数据说明」已写明数据只存在访客本机浏览器里。
 
 打开的页面与本地完全一致：五个食堂的菜单、评分、口碑排行全部可读可用；
 每位访客的打卡、评价、反馈**只存在他自己的浏览器中**，互不干扰，也不会回传到任何服务器。
+
+> 已托管在 GitHub Pages（`wyzazzy/shitangzuoye` 仓库的 `main` 分支根目录），
+> 每次 `git push` 后 Pages 会在几十秒内自动更新。
 
 ## 快速开始
 
@@ -94,23 +94,29 @@ python3 -m http.server 8000 --bind 0.0.0.0
 
 ### 1. 在 GitHub 上新建仓库
 
-打开 <https://github.com/new>，仓库名随意（例如 `sztu-canteen`），可见性选 **Public**（Pages 需要公开仓库），
-**不要**勾选 Add a README file / .gitignore / license。创建完成后复制仓库地址：
+打开 <https://github.com/new>，仓库名填 `shitangzuoye`，可见性选 **Public**（Pages 需要公开仓库），
+**不要**勾选 Add a README file / .gitignore / license（本地已有内容，勾选会导致首次推送冲突）。
+创建完成后仓库地址即为：
 
 ```
-https://github.com/<用户名>/<仓库名>.git
+https://github.com/wyzazzy/shitangzuoye.git
 ```
+
+> 若填目标是 **私有仓库**，免费账号无法开启 Pages，务必选 Public。
 
 ### 2. 本地推送（在自己终端执行）
 
+本项目对应的命令已经写好，直接复制即可：
+
 ```bash
 cd /home/wyz/CodeBuddy/101
-git remote add origin https://github.com/<用户名>/<仓库名>.git
+git remote add origin https://github.com/wyzazzy/shitangzuoye.git
 git push -u origin main
 ```
 
-> 首次推送会弹出 GitHub 登录授权窗口，按提示完成即可。
-> 若本机已有 SSH key，也可换成 SSH 地址 `git@github.com:<用户名>/<仓库名>.git`。
+> 首次推送会弹出 GitHub 登录授权窗口（或要求输入 Personal Access Token），按提示完成即可。
+> 若本机已有 SSH key，也可换成 SSH 地址 `git@github.com:wyzazzy/shitangzuoye.git`。
+> 如果提示 `remote origin already exists`，改用 `git remote set-url origin https://github.com/wyzazzy/shitangzuoye.git` 后再 push。
 
 ### 3. 开启 Pages
 
@@ -118,7 +124,7 @@ git push -u origin main
 分支选 **`main`**、目录选 **`/ (root)`**，点 Save。等待约 1 分钟即可访问：
 
 ```
-https://<用户名>.github.io/<仓库名>/
+https://wyzazzy.github.io/shitangzuoye/
 ```
 
 后续只要在本地改完 `index.html` 再 `git push`，Pages 会自动在几十秒内更新。
