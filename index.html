@@ -1,0 +1,1791 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>深技大食堂 · 深圳技术大学五大学生食堂指南</title>
+<meta name="description" content="深圳技术大学 A-0 / E-0 / E-00 / C-00 湖景 / 竹韵 五大学生食堂的今日菜单、菜品评分、意见反馈与消费营养统计。">
+<style>
+/* =========================================================
+   ① CSS 设计系统：变量
+   ========================================================= */
+:root{
+  --orange:#FF7A2F; --amber:#FFB020; --green:#16A085;
+  --bg:#FFF8F1; --card:#FFFFFF; --cream:#FFF1E2;
+  --t1:#1F2937; --t2:#6B7280; --t3:#9CA3AF;
+  --ok:#16A085; --danger:#E5484D; --warn:#F5A524; --info:#2563EB;
+  --r-lg:26px; --r:18px; --r-sm:12px; --r-xs:9px;
+  --sh-xs:0 1px 3px rgba(255,122,47,.06);
+  --sh-sm:0 4px 14px rgba(255,122,47,.09);
+  --sh:0 10px 28px rgba(255,122,47,.13);
+  --sh-lg:0 22px 54px rgba(255,122,47,.20);
+  --ease:cubic-bezier(.22,.86,.36,1);
+  --t:.22s var(--ease);
+  --grad:linear-gradient(135deg,#FF7A2F 0%,#FFB020 100%);
+  --grad-soft:linear-gradient(135deg,#FFF1E2 0%,#FFF8F1 100%);
+  --nav-h:70px;
+}
+*,*::before,*::after{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0; background:var(--bg); color:var(--t1);
+  font-family:"PingFang SC","Hiragino Sans GB","Microsoft YaHei",system-ui,-apple-system,"Segoe UI",sans-serif;
+  font-size:15px; line-height:1.65; -webkit-font-smoothing:antialiased;
+  background-image:
+    radial-gradient(900px 480px at 8% -6%, rgba(255,176,32,.16), transparent 62%),
+    radial-gradient(760px 420px at 96% 4%, rgba(22,160,133,.13), transparent 60%);
+  background-attachment:fixed;
+}
+h1,h2,h3,h4{margin:0; line-height:1.28}
+p{margin:0}
+button{font-family:inherit}
+a{color:inherit; text-decoration:none}
+::selection{background:rgba(255,122,47,.22)}
+::-webkit-scrollbar{width:10px;height:10px}
+::-webkit-scrollbar-thumb{background:rgba(255,122,47,.26); border-radius:99px; border:3px solid transparent; background-clip:padding-box}
+::-webkit-scrollbar-thumb:hover{background:rgba(255,122,47,.45); background-clip:padding-box}
+
+/* 动效 */
+@keyframes rise{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:none}}
+@keyframes pop{from{opacity:0;transform:translateY(18px) scale(.965)}to{opacity:1;transform:none}}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+@keyframes floatY{0%,100%{transform:translateY(0)}50%{transform:translateY(-9px)}}
+@keyframes shimmer{0%{background-position:0% 50%}100%{background-position:220% 50%}}
+@keyframes glowPulse{0%,100%{box-shadow:0 0 0 0 rgba(255,122,47,.34)}50%{box-shadow:0 0 0 12px rgba(255,122,47,0)}}
+@keyframes barGrow{from{height:0}}
+@keyframes countUp{from{opacity:.2; transform:translateY(6px)}to{opacity:1; transform:none}}
+.anim{animation:rise .4s var(--ease) both}
+
+/* =========================================================
+   ② 基础组件
+   ========================================================= */
+.wrap{max-width:1240px; margin:0 auto; padding:0 22px}
+.btn{
+  display:inline-flex; align-items:center; justify-content:center; gap:7px;
+  border:none; cursor:pointer; font-size:14px; font-weight:600;
+  padding:10px 18px; border-radius:99px; background:var(--cream); color:var(--t1);
+  transition:transform var(--t), box-shadow var(--t), background var(--t), color var(--t);
+  white-space:nowrap;
+}
+.btn:hover{transform:translateY(-2px); box-shadow:var(--sh-sm)}
+.btn:active{transform:translateY(0) scale(.97)}
+.btn.primary{background:var(--grad); color:#fff; box-shadow:0 6px 18px rgba(255,122,47,.30)}
+.btn.primary:hover{box-shadow:0 12px 26px rgba(255,122,47,.40)}
+.btn.green{background:linear-gradient(135deg,#16A085,#1FAE91); color:#fff; box-shadow:0 6px 18px rgba(22,160,133,.28)}
+.btn.ghost{background:rgba(255,255,255,.9); border:1.5px solid rgba(255,122,47,.24)}
+.btn.ghost:hover{border-color:var(--orange)}
+.btn.danger{background:linear-gradient(135deg,#E5484D,#FF6B6F); color:#fff; box-shadow:0 6px 18px rgba(229,72,77,.28)}
+.btn.sm{padding:6px 13px; font-size:13px; border-radius:99px}
+.btn.block{width:100%}
+.btn[disabled]{opacity:.45; pointer-events:none}
+
+.card{
+  background:var(--card); border-radius:var(--r); padding:20px;
+  box-shadow:var(--sh-sm); border:1px solid rgba(255,122,47,.07);
+  transition:transform var(--t), box-shadow var(--t);
+}
+.card:hover{transform:translateY(-4px); box-shadow:var(--sh)}
+.card.flat:hover{transform:none; box-shadow:var(--sh-sm)}
+
+.tag{
+  display:inline-flex; align-items:center; gap:4px; font-size:11.5px; font-weight:600;
+  padding:3px 9px; border-radius:99px; background:var(--cream); color:var(--orange);
+  border:1px solid rgba(255,122,47,.16); white-space:nowrap;
+}
+.tag.green{background:rgba(22,160,133,.10); color:var(--green); border-color:rgba(22,160,133,.22)}
+.tag.red{background:rgba(229,72,77,.10); color:var(--danger); border-color:rgba(229,72,77,.22)}
+.tag.blue{background:rgba(37,99,235,.09); color:var(--info); border-color:rgba(37,99,235,.20)}
+.tag.amber{background:rgba(245,165,36,.13); color:#B45309; border-color:rgba(245,165,36,.26)}
+.tag.gray{background:#F3F4F6; color:var(--t2); border-color:#E5E7EB}
+
+.grid{display:grid; gap:18px}
+.g3{grid-template-columns:repeat(3,1fr)}
+.g2{grid-template-columns:repeat(2,1fr)}
+.g4{grid-template-columns:repeat(4,1fr)}
+.section-title{display:flex; align-items:flex-end; justify-content:space-between; gap:14px; margin:34px 0 16px; flex-wrap:wrap}
+.section-title h2{font-size:22px; font-weight:700; letter-spacing:-.3px}
+.section-title .sub{color:var(--t2); font-size:13px; margin-top:3px}
+.eyebrow{
+  display:inline-block; font-size:12px; font-weight:700; letter-spacing:2px;
+  color:var(--orange); background:rgba(255,122,47,.09); padding:4px 11px; border-radius:99px; margin-bottom:9px;
+}
+.muted{color:var(--t2)}
+.tiny{font-size:12.5px}
+.center{text-align:center}
+.sep{height:1px; background:rgba(255,122,47,.11); margin:20px 0}
+
+.stars{display:inline-flex; gap:2px; font-size:14px; line-height:1; color:#E5E7EB}
+.stars i{font-style:normal; background:linear-gradient(135deg,#FFB020,#FF7A2F); -webkit-background-clip:text; background-clip:text; color:transparent}
+.stars i.off{color:#E5E7EB; background:none; -webkit-text-fill-color:#E5E7EB}
+.score{font-weight:800; color:var(--orange)}
+.num{font-variant-numeric:tabular-nums}
+
+/* 封面（纯 CSS，无外链） */
+.cover{
+  position:relative; overflow:hidden; display:flex; align-items:center; justify-content:center;
+  color:#fff; font-weight:800; letter-spacing:2px; text-shadow:0 3px 12px rgba(0,0,0,.22);
+}
+.cover::after{
+  content:''; position:absolute; inset:0;
+  background:radial-gradient(120px 90px at 26% 22%, rgba(255,255,255,.42), transparent 70%);
+}
+.cover span{position:relative; z-index:1}
+
+/* =========================================================
+   ③ 顶部导航（磨砂玻璃）
+   ========================================================= */
+.topbar{
+  position:sticky; top:0; z-index:60;
+  background:rgba(255,248,241,.80); backdrop-filter:blur(20px) saturate(180%);
+  -webkit-backdrop-filter:blur(20px) saturate(180%);
+  border-bottom:1px solid rgba(255,122,47,.13);
+  transition:box-shadow var(--t), background var(--t);
+}
+.topbar.scrolled{box-shadow:0 8px 26px rgba(255,122,47,.14); background:rgba(255,248,241,.93)}
+.topbar-in{height:var(--nav-h); display:flex; align-items:center; gap:18px}
+.brand{display:flex; align-items:center; gap:11px; flex-shrink:0}
+.brand .logo{
+  width:42px; height:42px; border-radius:13px; background:var(--grad); color:#fff;
+  display:grid; place-items:center; font-size:20px; font-weight:800;
+  box-shadow:0 6px 16px rgba(255,122,47,.34); animation:glowPulse 3.4s var(--ease) infinite;
+}
+.brand b{font-size:17px; font-weight:800; letter-spacing:-.3px; display:block}
+.brand small{display:block; font-size:11px; color:var(--t3); letter-spacing:.6px; margin-top:-2px}
+.navs{display:flex; gap:4px; margin-left:14px; overflow-x:auto; scrollbar-width:none}
+.navs::-webkit-scrollbar{display:none}
+.navs button{
+  border:none; background:transparent; cursor:pointer; padding:8px 14px; border-radius:99px;
+  font-size:14px; font-weight:600; color:var(--t2); transition:all var(--t); white-space:nowrap;
+}
+.navs button:hover{background:rgba(255,122,47,.09); color:var(--orange)}
+.navs button.on{background:var(--grad); color:#fff; box-shadow:0 5px 15px rgba(255,122,47,.30)}
+.spacer{flex:1}
+.searchbar{
+  display:flex; align-items:center; gap:8px; background:#fff; border:1.5px solid rgba(255,122,47,.16);
+  border-radius:99px; padding:7px 15px; min-width:190px; transition:all var(--t);
+}
+.searchbar:focus-within{border-color:var(--orange); box-shadow:0 0 0 4px rgba(255,122,47,.12)}
+.searchbar input{border:none; outline:none; background:transparent; font-size:14px; width:120px; font-family:inherit}
+.me{display:flex; align-items:center; gap:9px; cursor:pointer; padding:5px 13px 5px 5px; border-radius:99px;
+   border:1.5px solid rgba(255,122,47,.18); background:#fff; transition:all var(--t)}
+.me:hover{box-shadow:var(--sh-sm); border-color:var(--orange)}
+.me .ava{
+  width:34px; height:34px; border-radius:50%; background:var(--grad); color:#fff; display:grid; place-items:center;
+  font-weight:800; font-size:14px;
+}
+.me .who{line-height:1.25}
+.me .who b{display:block; font-size:13.5px}
+.me .who small{font-size:11px; color:var(--t3)}
+
+/* =========================================================
+   ④ 登录门
+   ========================================================= */
+.gate{
+  position:fixed; inset:0; z-index:200; display:grid; place-items:center; padding:24px;
+  background:
+    radial-gradient(1100px 600px at 10% 0%, rgba(255,176,32,.28), transparent 60%),
+    radial-gradient(900px 560px at 92% 12%, rgba(22,160,133,.22), transparent 62%),
+    linear-gradient(160deg,#FFF8F1,#FFF1E2);
+  animation:fadeIn .4s var(--ease);
+}
+.gate-box{
+  width:min(940px,100%); background:rgba(255,255,255,.86); backdrop-filter:blur(22px);
+  border:1px solid rgba(255,255,255,.7); border-radius:32px; box-shadow:var(--sh-lg);
+  padding:40px; animation:pop .5s var(--ease) both;
+}
+.gate-head{text-align:center; margin-bottom:26px}
+.gate-head .logo{
+  width:64px; height:64px; border-radius:20px; background:var(--grad); color:#fff; margin:0 auto 14px;
+  display:grid; place-items:center; font-size:30px; font-weight:800; box-shadow:0 12px 30px rgba(255,122,47,.36);
+  animation:floatY 3.6s var(--ease) infinite;
+}
+.gate-head h1{font-size:30px; font-weight:800; letter-spacing:-.6px}
+.gate-head p{color:var(--t2); margin-top:7px; font-size:14px}
+.role-grid{display:grid; grid-template-columns:1fr 1fr; gap:16px; margin:22px 0}
+.role-card{
+  text-align:left; cursor:pointer; padding:20px; border-radius:var(--r); border:2px solid transparent;
+  background:var(--grad-soft); transition:all var(--t); font-family:inherit; color:inherit;
+}
+.role-card:hover{transform:translateY(-4px); box-shadow:var(--sh)}
+.role-card.on{border-color:var(--orange); background:#fff; box-shadow:var(--sh)}
+.role-card .ic{font-size:26px}
+.role-card b{display:block; font-size:16px; margin:6px 0 4px}
+.role-card small{color:var(--t2); font-size:12.5px; line-height:1.6; display:block}
+.field{margin-bottom:14px}
+.field label{display:block; font-size:13px; font-weight:600; margin-bottom:6px; color:var(--t2)}
+.field input{
+  width:100%; padding:12px 15px; border:1.5px solid rgba(255,122,47,.18); border-radius:var(--r-sm);
+  font-size:15px; font-family:inherit; outline:none; background:#fff; transition:all var(--t);
+}
+.field input:focus{border-color:var(--orange); box-shadow:0 0 0 4px rgba(255,122,47,.12)}
+.gate-tip{
+  margin-top:18px; text-align:center; font-size:12px; color:var(--t3); line-height:1.7;
+  border-top:1px dashed rgba(255,122,47,.2); padding-top:14px;
+}
+
+/* =========================================================
+   ⑤ Hero 推荐横幅
+   ========================================================= */
+.hero{
+  position:relative; overflow:hidden; border-radius:var(--r-lg); padding:34px 38px; margin:26px 0 8px;
+  background:linear-gradient(120deg,#FF7A2F 0%,#FF9A3F 42%,#FFB020 100%);
+  color:#fff; box-shadow:var(--sh-lg); display:flex; align-items:center; gap:34px; flex-wrap:wrap;
+}
+.hero::before{
+  content:''; position:absolute; width:420px; height:420px; right:-120px; top:-180px; border-radius:50%;
+  background:radial-gradient(circle, rgba(255,255,255,.28), transparent 68%); animation:floatY 7s var(--ease) infinite;
+}
+.hero::after{
+  content:''; position:absolute; width:300px; height:300px; left:-90px; bottom:-190px; border-radius:50%;
+  background:radial-gradient(circle, rgba(22,160,133,.26), transparent 68%);
+}
+.hero-txt{position:relative; z-index:1; flex:1; min-width:270px}
+.hero-txt .kick{font-size:12.5px; font-weight:700; letter-spacing:2.5px; opacity:.9}
+.hero-txt h1{font-size:34px; font-weight:800; letter-spacing:-.8px; margin:8px 0 10px}
+.hero-txt p{opacity:.94; font-size:14.5px; max-width:520px}
+.hero-btns{display:flex; gap:10px; margin-top:20px; flex-wrap:wrap}
+.hero-btns .btn{background:rgba(255,255,255,.20); color:#fff; border:1.5px solid rgba(255,255,255,.45); backdrop-filter:blur(6px)}
+.hero-btns .btn.solid{background:#fff; color:var(--orange); border-color:#fff}
+.hero-btns .btn:hover{transform:translateY(-3px); background:rgba(255,255,255,.32)}
+.hero-btns .btn.solid:hover{background:#fff; box-shadow:0 12px 28px rgba(0,0,0,.18)}
+.hero-dish{position:relative; z-index:1; display:flex; align-items:center; gap:16px; background:rgba(255,255,255,.17);
+  border:1.5px solid rgba(255,255,255,.34); border-radius:var(--r); padding:14px 18px; backdrop-filter:blur(10px); min-width:290px}
+.hero-dish .cover{width:74px; height:74px; border-radius:16px; font-size:28px; background:rgba(255,255,255,.26)}
+.hero-dish .info b{font-size:17px; display:block; font-weight:700}
+.hero-dish .info small{opacity:.9; font-size:12.5px}
+.hero-dish .info .price{font-size:21px; font-weight:800; margin-top:5px; display:block}
+.hero-stats{display:flex; gap:26px; position:relative; z-index:1; margin-top:16px; flex-wrap:wrap}
+.hero-stats div b{font-size:22px; font-weight:800; display:block}
+.hero-stats div small{opacity:.88; font-size:12px}
+
+/* =========================================================
+   ⑥ 筛选工具条
+   ========================================================= */
+.toolbar{
+  position:sticky; top:var(--nav-h); z-index:40; display:flex; gap:10px; align-items:center; flex-wrap:wrap;
+  background:rgba(255,255,255,.86); backdrop-filter:blur(16px); border:1px solid rgba(255,122,47,.11);
+  border-radius:var(--r); padding:13px 16px; margin:22px 0; box-shadow:var(--sh-xs);
+}
+.chips{display:flex; gap:7px; flex-wrap:wrap; align-items:center}
+.chips .lb{font-size:12px; color:var(--t3); font-weight:600; margin-right:2px}
+.chip{
+  border:1.5px solid rgba(255,122,47,.18); background:#fff; color:var(--t2); cursor:pointer;
+  padding:6px 14px; border-radius:99px; font-size:13px; font-weight:600; transition:all var(--t);
+}
+.chip:hover{border-color:var(--orange); color:var(--orange); transform:translateY(-1px)}
+.chip.on{background:var(--grad); color:#fff; border-color:transparent; box-shadow:0 4px 12px rgba(255,122,47,.28)}
+select.sel{
+  border:1.5px solid rgba(255,122,47,.18); background:#fff; border-radius:99px; padding:7px 14px;
+  font-size:13px; font-weight:600; color:var(--t1); outline:none; cursor:pointer; font-family:inherit;
+  transition:all var(--t);
+}
+select.sel:focus{border-color:var(--orange); box-shadow:0 0 0 4px rgba(255,122,47,.12)}
+
+/* =========================================================
+   ⑦ 菜品卡片
+   ========================================================= */
+.dish{
+  background:var(--card); border-radius:var(--r); overflow:hidden; border:1px solid rgba(255,122,47,.07);
+  box-shadow:var(--sh-sm); cursor:pointer; transition:transform var(--t), box-shadow var(--t);
+  display:flex; flex-direction:column; animation:rise .42s var(--ease) both;
+}
+.dish:hover{transform:translateY(-6px); box-shadow:var(--sh-lg)}
+.dish .cover{height:132px; font-size:40px}
+.dish .cover .badge{
+  position:absolute; top:11px; right:11px; z-index:2; font-size:11px; font-weight:700;
+  background:rgba(255,255,255,.94); color:var(--orange); padding:3px 9px; border-radius:99px;
+  letter-spacing:0; box-shadow:0 3px 10px rgba(0,0,0,.14);
+}
+.dish .cover .kcal{
+  position:absolute; left:11px; bottom:11px; z-index:2; font-size:11px; font-weight:600;
+  background:rgba(31,41,55,.55); color:#fff; padding:3px 9px; border-radius:99px; letter-spacing:0; backdrop-filter:blur(4px);
+}
+.dish .body{padding:14px 16px 16px; flex:1; display:flex; flex-direction:column}
+.dish h4{font-size:16px; font-weight:700; letter-spacing:-.2px}
+.dish .from{font-size:12px; color:var(--t3); margin-top:3px}
+.dish .tags{display:flex; gap:5px; flex-wrap:wrap; margin:9px 0}
+.dish .foot{display:flex; align-items:center; justify-content:space-between; margin-top:auto; padding-top:11px}
+.dish .price{font-size:19px; font-weight:800; color:var(--orange)}
+.dish .price small{font-size:12px; color:var(--t3); font-weight:500}
+.dish .acts{display:flex; gap:7px; margin-top:11px}
+.dish .acts .btn{flex:1}
+
+/* 食堂导览卡 */
+.cant{
+  border-radius:var(--r); overflow:hidden; background:#fff; box-shadow:var(--sh-sm);
+  border:1px solid rgba(255,122,47,.07); cursor:pointer; transition:transform var(--t), box-shadow var(--t);
+  display:flex; flex-direction:column;
+}
+.cant:hover{transform:translateY(-5px); box-shadow:var(--sh-lg)}
+.cant .top{padding:20px 20px 16px; color:#fff; position:relative; overflow:hidden}
+.cant .top::after{content:''; position:absolute; inset:0; background:radial-gradient(160px 120px at 82% 16%, rgba(255,255,255,.28), transparent 70%)}
+.cant .top .code{font-size:12px; font-weight:800; letter-spacing:3px; opacity:.85; position:relative; z-index:1}
+.cant .top h3{font-size:21px; font-weight:800; margin:5px 0 7px; position:relative; z-index:1; letter-spacing:-.3px}
+.cant .top .area{font-size:12.5px; opacity:.93; position:relative; z-index:1}
+.cant .txt{padding:16px 20px 18px; flex:1}
+.cant .txt p{font-size:13px; color:var(--t2); line-height:1.7}
+.cant .meta{display:flex; gap:8px; flex-wrap:wrap; margin-top:12px}
+.cant .wins{font-size:12px; color:var(--t3); margin-top:12px; line-height:1.8}
+.cant .wins b{color:var(--t2); font-weight:600}
+
+/* 通用列表行 */
+.row{
+  display:flex; align-items:center; gap:14px; padding:14px 18px; background:#fff;
+  border:1px solid rgba(255,122,47,.08); border-radius:var(--r-sm); transition:all var(--t);
+}
+.row:hover{box-shadow:var(--sh-sm); transform:translateX(3px)}
+.rows{display:flex; flex-direction:column; gap:11px}
+.empty{
+  text-align:center; padding:56px 20px; color:var(--t3); background:#fff;
+  border:1.5px dashed rgba(255,122,47,.22); border-radius:var(--r);
+}
+.empty .ic{font-size:42px; margin-bottom:10px; opacity:.55}
+.empty b{display:block; color:var(--t2); font-size:15px; margin-bottom:4px}
+.empty small{font-size:13px}
+
+/* 统计卡 */
+.stat{
+  position:relative; overflow:hidden; background:#fff; border-radius:var(--r); padding:20px;
+  box-shadow:var(--sh-sm); border:1px solid rgba(255,122,47,.07); transition:transform var(--t), box-shadow var(--t);
+}
+.stat:hover{transform:translateY(-5px); box-shadow:var(--sh)}
+.stat::before{content:''; position:absolute; left:0; top:0; bottom:0; width:5px; background:var(--grad)}
+.stat.green::before{background:linear-gradient(180deg,#16A085,#4FD1B0)}
+.stat.blue::before{background:linear-gradient(180deg,#2563EB,#60A5FA)}
+.stat.amber::before{background:linear-gradient(180deg,#F5A524,#FBBF24)}
+.stat .lb{font-size:12.5px; color:var(--t3); font-weight:600; display:flex; align-items:center; gap:5px}
+.stat .vl{font-size:30px; font-weight:800; letter-spacing:-1px; margin-top:6px; animation:countUp .5s var(--ease) both}
+.stat .vl small{font-size:14px; color:var(--t3); font-weight:600; margin-left:3px}
+.stat .ds{font-size:12px; color:var(--t2); margin-top:3px}
+
+/* 进度条 / 柱图 / 环形 */
+.bar{height:8px; border-radius:99px; background:var(--cream); overflow:hidden}
+.bar>i{display:block; height:100%; border-radius:99px; background:var(--grad); transition:width .7s var(--ease)}
+.bar.green>i{background:linear-gradient(90deg,#16A085,#4FD1B0)}
+.bar.blue>i{background:linear-gradient(90deg,#2563EB,#60A5FA)}
+.bars{display:flex; align-items:flex-end; gap:14px; height:180px; padding:0 4px}
+.bars .col{flex:1; display:flex; flex-direction:column; align-items:center; gap:8px; height:100%; justify-content:flex-end}
+.bars .col .b{
+  width:100%; max-width:52px; border-radius:10px 10px 4px 4px; background:var(--grad);
+  min-height:4px; animation:barGrow .6s var(--ease) both; transition:filter var(--t), transform var(--t); cursor:pointer;
+}
+.bars .col .b:hover{filter:brightness(1.08); transform:translateY(-3px)}
+.bars .col small{font-size:12px; color:var(--t3); white-space:nowrap}
+.bars .col .amt{font-size:12px; font-weight:700; color:var(--orange)}
+.ring{
+  width:180px; height:180px; border-radius:50%; position:relative; flex-shrink:0;
+  box-shadow:0 10px 28px rgba(255,122,47,.16);
+}
+.ring::after{
+  content:''; position:absolute; inset:26px; background:#fff; border-radius:50%;
+  box-shadow:inset 0 2px 10px rgba(0,0,0,.05);
+}
+.ring .cap{position:absolute; inset:0; display:grid; place-items:center; z-index:2; text-align:center}
+.ring .cap b{font-size:24px; font-weight:800; display:block}
+.ring .cap small{font-size:12px; color:var(--t3)}
+.legend{display:flex; flex-direction:column; gap:11px}
+.legend .item{display:flex; align-items:center; gap:10px; font-size:13.5px}
+.legend .dot{width:11px; height:11px; border-radius:4px; flex-shrink:0}
+.legend .item b{margin-left:auto}
+
+/* Toast */
+#toastRoot{position:fixed; left:50%; bottom:34px; transform:translateX(-50%); z-index:300; display:flex; flex-direction:column; gap:9px; align-items:center}
+.toast{
+  background:rgba(31,41,55,.94); color:#fff; padding:11px 20px; border-radius:99px; font-size:14px; font-weight:500;
+  box-shadow:0 12px 32px rgba(0,0,0,.28); backdrop-filter:blur(10px); animation:pop .3s var(--ease) both;
+  display:flex; align-items:center; gap:8px; max-width:90vw;
+}
+.toast.ok{background:linear-gradient(135deg,#16A085,#1FAE91)}
+.toast.err{background:linear-gradient(135deg,#E5484D,#FF6B6F)}
+
+/* Modal */
+#modalRoot{position:fixed; inset:0; z-index:250; display:none}
+#modalRoot.on{display:block}
+#modalRoot .mask{position:absolute; inset:0; background:rgba(31,41,55,.44); backdrop-filter:blur(5px); animation:fadeIn .22s var(--ease)}
+#modalRoot .sheet{
+  position:relative; z-index:1; width:min(560px,92vw); margin:8vh auto 0; background:#fff;
+  border-radius:var(--r-lg); box-shadow:var(--sh-lg); padding:28px; animation:pop .32s var(--ease) both; max-height:84vh; overflow:auto;
+}
+#modalRoot .sheet h3{font-size:20px; font-weight:700; margin-bottom:8px}
+#modalRoot .sheet .msg{color:var(--t2); font-size:14px; line-height:1.75}
+#modalRoot .sheet .acts{display:flex; gap:10px; justify-content:flex-end; margin-top:22px; flex-wrap:wrap}
+textarea.ta{
+  width:100%; min-height:96px; padding:12px 14px; border:1.5px solid rgba(255,122,47,.18); border-radius:var(--r-sm);
+  font-family:inherit; font-size:14px; outline:none; resize:vertical; transition:all var(--t); background:#fff;
+}
+textarea.ta:focus{border-color:var(--orange); box-shadow:0 0 0 4px rgba(255,122,47,.12)}
+.pick{display:flex; gap:6px; justify-content:center; margin:6px 0 4px}
+.pick button{
+  border:none; background:transparent; cursor:pointer; font-size:30px; color:#E5E7EB; padding:0 3px;
+  transition:transform .14s var(--ease), color var(--t); line-height:1;
+}
+.pick button.on{color:var(--amber); transform:scale(1.16)}
+.pick button:hover{transform:scale(1.22)}
+
+/* Footer */
+.footer{
+  margin-top:56px; background:linear-gradient(160deg,#1F2937,#111827); color:#fff; padding:40px 0 26px; position:relative; overflow:hidden;
+}
+.footer::before{content:''; position:absolute; width:500px; height:500px; right:-160px; top:-260px; border-radius:50%; background:radial-gradient(circle, rgba(255,122,47,.22), transparent 66%)}
+.footer .fg{display:grid; grid-template-columns:1.6fr 1fr 1fr 1fr; gap:26px; position:relative; z-index:1}
+.footer h4{font-size:15px; font-weight:700; margin-bottom:12px}
+.footer p,.footer li{font-size:13px; color:rgba(255,255,255,.62); line-height:1.9}
+.footer ul{list-style:none; margin:0; padding:0}
+.footer li button{border:none; background:none; color:inherit; font-size:13px; cursor:pointer; padding:0; font-family:inherit; text-align:left}
+.footer li button:hover{color:var(--amber)}
+.footer .bot{border-top:1px solid rgba(255,255,255,.10); margin-top:26px; padding-top:18px; font-size:12px; color:rgba(255,255,255,.44); position:relative; z-index:1; line-height:1.9}
+
+/* 响应式 */
+@media(max-width:1100px){ .g4{grid-template-columns:repeat(2,1fr)} .footer .fg{grid-template-columns:1fr 1fr} }
+@media(max-width:900px){ .g3{grid-template-columns:repeat(2,1fr)} .role-grid{grid-template-columns:1fr} }
+@media(max-width:700px){
+  .g2,.g3,.g4{grid-template-columns:1fr}
+  .brand small{display:none} .searchbar{display:none}
+  .hero{padding:26px 22px} .hero-txt h1{font-size:26px}
+  .wrap{padding:0 15px} .toolbar{top:var(--nav-h)} .footer .fg{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+
+<!-- 登录门 -->
+<div class="gate" id="gate">
+  <div class="gate-box">
+    <div class="gate-head">
+      <div class="logo">🍜</div>
+      <h1>深技大食堂</h1>
+      <p>深圳技术大学 · A-0 / E-0 / E-00 / C-00 湖景 / 竹韵 五大食堂一站式指南</p>
+    </div>
+    <div class="role-grid">
+      <button class="role-card on" data-act="pick-role" data-role="student">
+        <div class="ic">🎓</div>
+        <b>我是学生</b>
+        <small>浏览今日菜单、打卡就餐、给菜打分、向窗口提意见、查看自己的消费与营养统计</small>
+      </button>
+      <button class="role-card" data-act="pick-role" data-role="admin">
+        <div class="ic">🧑‍🍳</div>
+        <b>我是食堂管理员</b>
+        <small>受理并回复师生意见、维护各食堂菜品与价格、查看运营数据与全部处理记录</small>
+      </button>
+    </div>
+    <div class="grid g2">
+      <div class="field">
+        <label for="nick">昵称</label>
+        <input id="nick" placeholder="例如：小林同学" maxlength="12">
+      </div>
+      <div class="field">
+        <label for="sid">学号（选填）</label>
+        <input id="sid" placeholder="例如：2024003012" maxlength="14">
+      </div>
+    </div>
+    <button class="btn primary block" style="padding:14px; font-size:15px" data-act="enter">进入食堂 →</button>
+    <div class="gate-tip">
+      🔒 本机演示不做口令校验，所有数据只存在你自己的浏览器 localStorage 里，不上传任何服务器<br>
+      换浏览器或清除浏览数据会丢失自己发布的内容，属正常现象
+    </div>
+  </div>
+</div>
+
+<!-- 主体 -->
+<div id="app" hidden>
+  <header class="topbar" id="topbar">
+    <div class="wrap topbar-in">
+      <div class="brand">
+        <div class="logo">🍜</div>
+        <div><b>深技大食堂</b><small>SZTU CANTEEN</small></div>
+      </div>
+      <nav class="navs" id="navs"></nav>
+      <div class="spacer"></div>
+      <label class="searchbar">
+        <span>🔍</span>
+        <input id="q" placeholder="搜菜名 / 窗口 / 食堂" autocomplete="off">
+      </label>
+      <div class="me" data-act="avatar">
+        <div class="ava" id="ava">学</div>
+        <div class="who"><b id="meName">同学</b><small id="meRole">学生</small></div>
+      </div>
+    </div>
+  </header>
+  <main class="wrap" id="host"></main>
+  <footer class="footer">
+    <div class="wrap">
+      <div class="fg">
+        <div>
+          <h4>🍜 深技大食堂</h4>
+          <p>面向深圳技术大学师生的食堂信息平台。收录 A-0 食堂、E-0 食堂、E-00 西餐厅、C-00 湖景食堂、竹韵食堂五大食堂的今日菜单、口碑评分、意见反馈与就餐统计。</p>
+          <p style="margin-top:10px">💳 支付方式：校园卡 / 微信 / 支付宝</p>
+        </div>
+        <div>
+          <h4>快捷直达</h4>
+          <ul>
+            <li><button data-act="go" data-view="menu">今日菜单</button></li>
+            <li><button data-act="go" data-view="rank">口碑排行</button></li>
+            <li><button data-act="go" data-view="feedback">意见反馈</button></li>
+            <li><button data-act="go" data-view="stats">消费与营养</button></li>
+          </ul>
+        </div>
+        <div>
+          <h4>五大食堂</h4>
+          <ul>
+            <li>A-0 食堂（南区）</li><li>E-0 食堂（北区）</li><li>E-00 西餐厅</li>
+            <li>C-00 湖景食堂</li><li>竹韵食堂（D 区）</li>
+          </ul>
+        </div>
+        <div>
+          <h4>数据说明</h4>
+          <ul>
+            <li>数据存本机浏览器</li>
+            <li>不上传服务器</li>
+            <li>价格与营业时间仅供参考</li>
+            <li>节假日以食堂公告为准</li>
+          </ul>
+        </div>
+      </div>
+      <div class="bot">
+        © 2026 深技大食堂 · 深圳技术大学课程演示项目 ｜ 菜价、热量与营业时间为演示用示例数据，实际以食堂现场公示为准<br>
+        本页面零依赖、零构建，单个 HTML 文件即可离线运行。
+      </div>
+    </div>
+  </footer>
+</div>
+
+<div id="toastRoot"></div>
+<div id="modalRoot"></div>
+
+<script>
+/* =========================================================
+   ① 常量：五大食堂 / 窗口 / 菜品（深圳技术大学真实场景）
+   ========================================================= */
+const KEY='sztu_canteen_db_v1';
+const MEALS={breakfast:{n:'早餐',t:'06:30–09:00'},lunch:{n:'午餐',t:'11:00–13:30'},dinner:{n:'晚餐',t:'17:00–19:30'},supper:{n:'宵夜',t:'19:00–22:00'}};
+const FB_TYPES=['饭菜质量','卫生状况','价格收费','服务态度'];
+const FB_STATUS={pending:{n:'待处理',c:'amber'},resolved:{n:'已回复',c:'green'},rejected:{n:'已驳回',c:'red'}};
+
+const CANTEENS=[
+ {id:'a0',code:'A-0',name:'A-0 食堂',area:'A 区 · 南区宿舍楼下',tag:'性价比 · 家常菜',
+  hours:'早餐 6:30–9:00 ｜ 午餐 11:00–13:00 ｜ 晚餐 17:00–19:30',
+  desc:'南区宿舍同学的一日三餐首选。基础家常菜齐全、价格亲民，烧鸭饭与三及第汤粉常年排队，赶时间窗口出餐很快。',
+  wins:'自选称重餐、广式烧腊、麻辣烫、手工云吞、盖浇饭、石锅拌饭、炸鸡汉堡、水果捞',
+  gram:['#FF7A2F','#FFB020']},
+ {id:'e0',code:'E-0',name:'E-0 食堂',area:'E 区 · 北区主食堂',tag:'规模最大 · 口味丰富',
+  hours:'早餐 6:30–9:00 ｜ 午餐 10:30–13:30 ｜ 晚餐 16:30–20:00',
+  desc:'全校规模最大的学生食堂，多层就餐区、座位充足。川湘粤菜系都有，自选餐、麻辣香锅、煲仔饭是三大人气担当。',
+  wins:'自选餐、麻辣香锅、煲仔饭、面食、小炒、卤味',
+  gram:['#F97316','#F59E0B']},
+ {id:'e00',code:'E-00',name:'E-00 西餐厅',area:'北区 18 栋一层',tag:'西餐 · 咖啡 · 宵夜',
+  hours:'早餐 7:00–9:00 ｜ 午餐 11:30–13:30 ｜ 晚餐 17:00–19:00 ｜ 宵夜 19:00–22:00',
+  desc:'装修简约，有沙发卡座与吧台，适合自习、约会和小聚。供应扒类、焗饭意面、咖啡甜品，晚上还有宵夜时段。',
+  wins:'黑椒牛扒、焗饭意面、汉堡炸物、咖啡、甜品、沙拉轻食',
+  gram:['#8B5CF6','#EC4899']},
+ {id:'c00',code:'C-00',name:'C-00 湖景食堂',area:'C 区 · 图书馆旁',tag:'临湖景观 · 拍照打卡',
+  hours:'早茶 7:00–10:00 ｜ 午餐 11:00–13:30 ｜ 晚餐 17:00–20:00',
+  desc:'环境最好的食堂，靠窗位置可以看见湖景，很多人专程来拍照。粤式早茶、烧腊、铁板烧做得精致，适合慢下来吃一顿。',
+  wins:'粤式早茶、烧腊、铁板烧、干锅、轻食套餐',
+  gram:['#0EA5E9','#22D3EE']},
+ {id:'zy',code:'竹韵',name:'竹韵食堂',area:'D 区 · 竹韵（教工 + 学生共用）',tag:'烧烤 · 烤鱼 · 聚餐',
+  hours:'午餐 11:00–13:30 ｜ 晚餐 16:30–21:00 ｜ 夜宵烧烤至 22:30',
+  desc:'教工食堂，学生同样可以就餐。设有火锅与烧烤档口，菜式最多、口味偏重，糖醋排骨、顺德捞鸡、烤鱼都是招牌，宿舍聚餐首选。',
+  wins:'广式烧腊、烤鱼烧烤、小炒、火锅、水煮牛肉、顺德捞鸡',
+  gram:['#16A085','#4ADE80']}
+];
+
+// id, 食堂, 名称, 品类, 供餐时段
+const WINDOWS=[
+ ['w1','a0','自选称重餐','家常自选','breakfast,lunch,dinner'],
+ ['w2','a0','广式烧腊','烧腊','lunch,dinner'],
+ ['w3','a0','麻辣烫','汤锅粉面','lunch,dinner'],
+ ['w4','a0','手工云吞','汤锅粉面','breakfast,lunch,dinner'],
+ ['w5','a0','盖浇饭','盖饭','lunch,dinner'],
+ ['w6','a0','石锅拌饭','韩式','lunch,dinner'],
+ ['w7','a0','炸鸡汉堡','西式快餐','lunch,dinner'],
+ ['w8','a0','水果捞','甜品饮品','breakfast,lunch,dinner'],
+ ['w9','e0','自选餐','家常自选','breakfast,lunch,dinner'],
+ ['w10','e0','麻辣香锅','川湘小炒','lunch,dinner'],
+ ['w11','e0','煲仔饭','粤式','lunch,dinner'],
+ ['w12','e0','面食','面食','breakfast,lunch,dinner'],
+ ['w13','e0','小炒','川湘小炒','lunch,dinner'],
+ ['w14','e0','卤味','卤味','lunch,dinner'],
+ ['w15','e00','扒类牛排','西餐','lunch,dinner,supper'],
+ ['w16','e00','焗饭意面','西餐','lunch,dinner'],
+ ['w17','e00','咖啡甜品','甜品饮品','breakfast,lunch,dinner,supper'],
+ ['w18','e00','沙拉轻食','轻食','lunch,dinner'],
+ ['w19','c00','粤式早茶','粤式','breakfast,lunch'],
+ ['w20','c00','烧腊','烧腊','lunch,dinner'],
+ ['w21','c00','铁板烧','铁板','lunch,dinner'],
+ ['w22','c00','干锅','干锅','lunch,dinner'],
+ ['w23','c00','轻食套餐','轻食','breakfast,lunch,dinner'],
+ ['w24','zy','广式烧腊','烧腊','lunch,dinner'],
+ ['w25','zy','烤鱼烧烤','烧烤夜宵','dinner,supper'],
+ ['w26','zy','小炒','川湘小炒','lunch,dinner'],
+ ['w27','zy','火锅','火锅','lunch,dinner,supper']
+];
+
+// [窗口, 菜名, 价格, 热量kcal, 蛋白g, 脂肪g, 碳水g, 标签, 供餐]
+const DISH_ROWS=[
+ ['w1','农家小炒肉',14,620,24,42,36,'招牌,微辣','lunch,dinner'],
+ ['w1','番茄滑蛋',10,380,18,24,26,'家常','lunch,dinner'],
+ ['w1','清炒时蔬',6,120,4,7,12,'素食,低卡','lunch,dinner'],
+ ['w1','白粥 + 小菜',3,180,5,2,34,'素食,低卡','breakfast'],
+ ['w2','烧鸭饭',15,780,34,36,68,'招牌,必吃','lunch,dinner'],
+ ['w2','蜜汁叉烧饭',16,820,36,38,70,'招牌','lunch,dinner'],
+ ['w2','白切鸡饭',15,700,40,30,62,'招牌','lunch,dinner'],
+ ['w2','烧腊双拼饭',18,900,44,44,72,'招牌,聚餐','lunch,dinner'],
+ ['w3','麻辣烫（荤素自选）',18,650,30,38,44,'招牌,微辣','lunch,dinner'],
+ ['w3','骨汤麻辣烫',16,520,22,28,42,'微辣','lunch,dinner'],
+ ['w3','番茄清汤烫菜',14,420,18,20,44,'低卡','lunch,dinner'],
+ ['w4','鲜肉云吞面',13,480,22,14,64,'招牌','breakfast,lunch,dinner'],
+ ['w4','三及第汤粉',14,450,26,12,58,'招牌,必吃','breakfast,lunch,dinner'],
+ ['w4','手工鲜虾云吞',15,420,24,10,54,'招牌','lunch,dinner'],
+ ['w5','鱼香肉丝盖饭',13,690,24,26,84,'微辣','lunch,dinner'],
+ ['w5','宫保鸡丁盖饭',13,710,28,30,80,'微辣','lunch,dinner'],
+ ['w5','咖喱鸡排饭',14,760,30,32,82,'新品','lunch,dinner'],
+ ['w6','石锅拌饭',16,720,26,28,88,'招牌','lunch,dinner'],
+ ['w6','辣白菜五花肉拌饭',18,780,28,36,84,'微辣','lunch,dinner'],
+ ['w7','香辣鸡腿堡',12,560,26,28,52,'微辣','lunch,dinner'],
+ ['w7','鸡米花（小份）',8,420,20,24,30,'小吃','lunch,dinner'],
+ ['w8','芒果西瓜捞',9,180,3,2,38,'素食,低卡','breakfast,lunch,dinner'],
+ ['w8','酸奶水果捞',10,220,6,5,36,'素食','breakfast,lunch,dinner'],
+ ['w9','红烧狮子头',12,640,28,44,28,'招牌','lunch,dinner'],
+ ['w9','梅菜扣肉',13,700,26,52,26,'招牌','lunch,dinner'],
+ ['w9','冬瓜排骨汤',8,220,14,12,12,'低卡','lunch,dinner'],
+ ['w9','豆浆 + 油条',5,380,12,18,44,'素食','breakfast'],
+ ['w10','麻辣香锅（荤）',22,880,42,58,44,'招牌,重辣','lunch,dinner'],
+ ['w10','微辣香锅（素）',16,620,16,42,44,'微辣,素食','lunch,dinner'],
+ ['w11','腊味煲仔饭',18,820,32,34,94,'招牌,必吃','lunch,dinner'],
+ ['w11','香菇滑鸡煲仔饭',17,760,36,28,86,'招牌','lunch,dinner'],
+ ['w12','牛肉拉面',15,620,32,18,78,'招牌','breakfast,lunch,dinner'],
+ ['w12','炸酱面',12,580,22,20,76,'招牌','lunch,dinner'],
+ ['w12','葱油拌面',9,460,10,20,62,'素食','breakfast,lunch,dinner'],
+ ['w13','干煸四季豆',12,420,10,26,34,'微辣','lunch,dinner'],
+ ['w13','水煮牛肉',20,760,40,52,26,'重辣,招牌','lunch,dinner'],
+ ['w14','卤鸡腿',9,380,32,22,8,'小吃','lunch,dinner'],
+ ['w14','卤蛋 + 豆干',6,240,18,14,10,'小吃','lunch,dinner'],
+ ['w15','黑椒牛扒',38,720,58,42,18,'招牌,必吃','lunch,dinner,supper'],
+ ['w15','香煎鸡扒',28,560,46,30,20,'招牌','lunch,dinner'],
+ ['w15','芝士薯条',14,480,12,26,52,'宵夜','dinner,supper'],
+ ['w16','芝士肉酱意面',32,780,32,34,86,'招牌','lunch,dinner'],
+ ['w16','咖喱海鲜焗饭',34,820,36,38,84,'招牌','lunch,dinner'],
+ ['w17','冰美式',12,20,0,0,4,'低卡','breakfast,lunch,dinner,supper'],
+ ['w17','提拉米苏',18,320,6,18,34,'甜品','lunch,dinner,supper'],
+ ['w17','焦糖布丁',14,260,7,10,34,'甜品','lunch,dinner'],
+ ['w18','香煎鸡胸藜麦沙拉',26,380,38,10,32,'低卡,轻食','lunch,dinner'],
+ ['w18','三文鱼牛油果沙拉',32,420,30,26,22,'轻食','lunch,dinner'],
+ ['w19','虾饺皇（4 只）',16,260,16,8,30,'招牌,必吃','breakfast,lunch'],
+ ['w19','豉汁蒸凤爪',12,300,18,20,12,'招牌','breakfast,lunch'],
+ ['w19','艇仔粥',10,280,14,8,36,'招牌','breakfast,lunch'],
+ ['w20','深井烧鹅饭',22,880,38,52,64,'招牌,必吃','lunch,dinner'],
+ ['w20','叉烧 + 油鸡双拼',20,820,42,44,58,'招牌','lunch,dinner'],
+ ['w21','铁板黑椒牛柳',28,720,46,36,44,'招牌','lunch,dinner'],
+ ['w21','铁板鱿鱼',22,480,38,22,20,'微辣','lunch,dinner'],
+ ['w22','干锅花菜',18,520,12,34,40,'微辣','lunch,dinner'],
+ ['w22','干锅基围虾',32,620,44,34,30,'招牌,微辣','lunch,dinner'],
+ ['w23','藜麦鸡胸套餐',24,520,40,16,52,'轻食,低卡','breakfast,lunch,dinner'],
+ ['w23','番茄牛腩套餐',26,680,38,30,58,'招牌','lunch,dinner'],
+ ['w24','咸蛋黄叉烧饭',18,860,38,46,72,'招牌,必吃','lunch,dinner'],
+ ['w24','烧鸭腿饭',20,900,42,50,66,'招牌','lunch,dinner'],
+ ['w25','炭火烤鱼（清江鱼）',68,1100,72,64,28,'招牌,聚餐,微辣','dinner,supper'],
+ ['w25','孜然羊肉串（3 串）',12,360,26,24,6,'招牌,宵夜','dinner,supper'],
+ ['w25','蒜香烤茄子',8,220,5,14,22,'素食,微辣','dinner,supper'],
+ ['w26','水煮牛肉',28,780,44,54,26,'重辣,招牌','lunch,dinner'],
+ ['w26','糖醋排骨',22,720,32,38,58,'招牌','lunch,dinner'],
+ ['w26','顺德捞鸡',45,880,62,48,26,'招牌,聚餐','lunch,dinner'],
+ ['w26','客家酿豆腐',16,420,22,28,24,'家常','lunch,dinner'],
+ ['w27','番茄肥牛小火锅',35,900,52,48,58,'招牌,聚餐','lunch,dinner,supper'],
+ ['w27','麻辣牛肉锅',42,1050,58,66,48,'重辣,聚餐','dinner,supper']
+];
+
+/* =========================================================
+   ② 种子数据构造（确定性，保证每次初始一致）
+   ========================================================= */
+function hashHue(str){let h=0;for(let i=0;i<str.length;i++)h=(h*31+str.charCodeAt(i))%360;return h}
+function seedDishRows(){return DISH_ROWS.map((r,i)=>({id:'d'+(i+1),windowId:r[0],name:r[1],price:r[2],kcal:r[3],protein:r[4],fat:r[5],carb:r[6],tags:r[7]?r[7].split(','):[],meals:r[8].split(','),removed:false}))}
+
+const REVIEW_TEXTS=[
+ '分量很足，一个人吃刚刚好，这个价格在深技大算良心的。',
+ '味道稳定，几乎每天都来排队，出餐速度也快。',
+ '稍微有点油，但配饭确实香，值得回购。',
+ '肉质很嫩，配菜给得多，中午饭点人多但翻台很快。',
+ '口味偏重一点，喜欢清淡的同学可以让阿姨少放盐。',
+ '环境好 + 味道好，带朋友来吃过都说不错。',
+ '这学期新上的，第一口有点惊艳，后面稍微有点腻。',
+ '性价比之王，赶早八之前来一份刚刚好。',
+ '和高中食堂比简直是天堂，价格也亲民。',
+ '打菜阿姨手很松，给的肉比我预想的多很多。'
+];
+const AUTHORS=['小林同学','阿杰','一只鱼','南区干饭王','不吃香菜','Kris','荔枝味的夏天','E区住户','考研人小陈','Lemon','北区小王','早八战士','湖景常客','竹韵铁粉'];
+
+function seed(){
+  const dishes=seedDishRows();
+  const wins=WINDOWS.map((w,i)=>({id:w[0],canteenId:w[1],name:w[2],cat:w[3],meals:w[4].split(','),removed:false}));
+  // 确定性伪随机
+  let s=20240610;
+  const rnd=()=>{s=(s*9301+49297)%233280;return s/233280};
+  // 评价：约 70 条
+  const reviews=[];
+  const RC=[5,5,4,4,4,5,3,4,5,3];
+  dishes.forEach((d,i)=>{
+    const n=(i*7)%3===0?3:(i%2===0?2:1);
+    for(let k=0;k<n;k++){
+      const idx=(i*3+k)%REVIEW_TEXTS.length;
+      reviews.push({
+        id:'r'+reviews.length+1, dishId:d.id, author:AUTHORS[(i+k)%AUTHORS.length],
+        rating:RC[(i+k)%RC.length], text:REVIEW_TEXTS[idx], likes:Math.floor(rnd()*18),
+        createdAt:Date.now()-Math.floor(rnd()*26+1)*864e5, removed:false
+      });
+    }
+  });
+  // 就餐记录：近 180 天逐步生成
+  const meals=[]; const today=new Date();
+  for(let day=178;day>=0;day--){
+    if(rnd()>0.42) continue;
+    const n=1+(rnd()<0.35?1:0);
+    for(let k=0;k<n;k++){
+      const d=dishes[Math.floor(rnd()*dishes.length)];
+      const dt=new Date(today.getTime()-day*864e5);
+      meals.push({id:'m'+day+'-'+k,author:'我',dishId:d.id,dishName:d.name,windowId:d.windowId,
+        price:d.price,kcal:d.kcal,protein:d.protein,fat:d.fat,carb:d.carb,
+        date:`${dt.getFullYear()}-${String(dt.getMonth()+1).padStart(2,'0')}-${String(dt.getDate()).padStart(2,'0')}`});
+    }
+  }
+  meals.forEach((m,i)=>m.id='m'+(i+1));
+  // 反馈：含 3 条待处理
+  const FBS=[
+    ['w3','饭菜质量','麻辣烫的汤底最近偏咸，连着吃了两次都觉得齁，希望能调一下味道。',0],
+    ['w10','价格收费','麻辣香锅按份量算钱，感觉肉类算得有点贵，一份随便夹就 25 了。',0],
+    ['w7','卫生状况','中午十二点半高峰期，炸鸡汉堡窗口的桌面收拾得不够及时。',0],
+    ['w2','服务态度','烧腊窗口打饭的阿姨人特别好，每次都多给一点青菜，表扬！',1],
+    ['w12','饭菜质量','牛肉拉面的面有点坨了，希望煮的时间控制一下。',1],
+    ['w25','价格收费','竹韵烤鱼有点贵，能不能出个小份或者学生优惠。',2]
+  ];
+  const feedbacks=FBS.map((f,i)=>({
+    id:'f'+(i+1),windowId:f[0],author:AUTHORS[i*2],type:f[1],text:f[2],
+    status:['pending','resolved','rejected'][f[3]],
+    reply:f[3]===1?'同学你好，已把情况反馈给窗口负责人，会调整口味并加强培训，感谢你的反馈。':(f[3]===2?'同学你好，烤鱼定价是根据食材成本确定的，小份问题我们会向后勤反映，目前可关注每周三的特价活动。':''),
+    repliedAt:f[3]>0?Date.now()-Math.floor((3-i)*864e5):null,
+    createdAt:Date.now()-Math.floor((i+1)*2+1)*864e5
+  }));
+  return {
+    version:1, profile:{nickname:'',studentId:'',role:'student'},
+    canteens:CANTEENS.map(c=>({...c,removed:false})), windows:wins, dishes, reviews, feedbacks, meals,
+    adminLogs:[
+      {id:'l1',action:'回复反馈',target:'烧腊（A-0）',detail:'已回复「服务态度」类反馈并同步窗口负责人',createdAt:Date.now()-2*864e5},
+      {id:'l2',action:'驳回反馈',target:'烤鱼烧烤（竹韵）',detail:'定价涉及食材成本，暂不支持调整',createdAt:Date.now()-864e5}
+    ],
+    favorites:[]
+  };
+}
+
+/* =========================================================
+   ③ 存储层
+   ========================================================= */
+let db=null;
+function load(){
+  try{
+    const raw=localStorage.getItem(KEY);
+    if(raw){const o=JSON.parse(raw); if(o&&o.dishes&&o.dishes.length){db=o;return}}
+  }catch(e){console.warn('读取本地数据失败，回落初始数据',e)}
+  db=seed(); save();
+}
+function save(){try{localStorage.setItem(KEY,JSON.stringify(db))}catch(e){toast('本地存储写入失败，内容可能无法保留','err')}}
+function resetDB(){db=seed(); save()}
+
+/* =========================================================
+   ④ 工具层
+   ========================================================= */
+const $=s=>document.querySelector(s);
+const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const uid=()=>Date.now().toString(36)+Math.random().toString(36).slice(2,7);
+const pad=n=>String(n).padStart(2,'0');
+const ymd=(d=new Date())=>`${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())}`;
+const monthOf=s=>String(s).slice(0,7);
+const money=n=>'¥'+(Math.round(n*10)/10).toFixed(n%1?1:0);
+function ago(ts){
+  const s=(Date.now()-ts)/1000;
+  if(s<60)return'刚刚'; if(s<3600)return Math.floor(s/60)+' 分钟前';
+  if(s<86400)return Math.floor(s/3600)+' 小时前';
+  if(s<86400*30)return Math.floor(s/86400)+' 天前';
+  const d=new Date(ts);return `${d.getMonth()+1}月${d.getDate()}日`;
+}
+function fmtDT(ts){const d=new Date(ts);return`${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())} ${pad(d.getHours())}:${pad(d.getMinutes())}`}
+function stars(r,size){
+  const full=Math.round(r);
+  let h='';for(let i=1;i<=5;i++)h+=`<i class="${i<=full?'':'off'}">★</i>`;
+  return`<span class="stars" style="${size?`font-size:${size}`:''}">${h}</span>`;
+}
+const D=id=>db.dishes.find(x=>x.id===id);
+const W=id=>db.windows.find(x=>x.id===id);
+const C=id=>db.canteens.find(x=>x.id===id);
+function coverOf(o){const hue=hashHue(o.id+o.name);return`linear-gradient(135deg,hsl(${hue} 88% 62%),hsl(${(hue+34)%360} 82% 48%))`}
+function cover(o,cls,size){
+  return`<div class="cover ${cls||''}" style="background:${coverOf(o)};${size||''}"><span>${esc(String(o.name).slice(0,1))}</span></div>`;
+}
+function dishRev(id){return db.reviews.filter(r=>r.dishId===id&&!r.removed)}
+function dishRating(id){const rs=dishRev(id);return rs.length?rs.reduce((a,b)=>a+b.rating,0)/rs.length:0}
+function windowAvg(wid){
+  const rs=db.reviews.filter(r=>!r.removed&&db.dishes.some(d=>d.id===r.dishId&&d.windowId===wid));
+  return{avg:rs.length?rs.reduce((a,b)=>a+b.rating,0)/rs.length:0,count:rs.length};
+}
+function liveDishes(){return db.dishes.filter(d=>!d.removed)}
+function myMeals(){return db.meals.filter(m=>m.author==='我')}
+function isAdmin(){return db.profile.role==='admin'}
+
+function toast(msg,type){
+  const el=document.createElement('div');
+  el.className='toast '+(type||''); el.textContent=msg;
+  $('#toastRoot').appendChild(el);
+  setTimeout(()=>{el.style.transition='opacity .3s,transform .3s';el.style.opacity='0';el.style.transform='translateY(12px)';setTimeout(()=>el.remove(),320)},2100);
+}
+let _p1=null;
+function modal(html){const r=$('#modalRoot');r.innerHTML=`<div class="mask" data-act="modal-close"></div><div class="sheet">${html}</div>`;r.classList.add('on')}
+function closeModal(){const r=$('#modalRoot');r.classList.remove('on');r.innerHTML='';_p1=null}
+function confirmBox(title,msg,okText,danger){
+  return new Promise(res=>{
+    _p1=res;
+    modal(`<h3>${esc(title)}</h3><div class="msg">${msg}</div>
+      <div class="acts"><button class="btn ghost" data-act="modal-no">取消</button>
+      <button class="btn ${danger?'danger':'primary'}" data-act="modal-yes">${esc(okText||'确定')}</button></div>`);
+  });
+}
+
+/* =========================================================
+   ⑤ 路由状态
+   ========================================================= */
+const NAVS=[
+ {v:'menu',n:'🍚 今日菜单'},
+ {v:'rank',n:'🏆 口碑排行'},
+ {v:'feedback',n:'💬 意见反馈'},
+ {v:'stats',n:'📊 消费与营养'},
+ {v:'admin',n:'🛠 管理后台',guard:'admin'}
+];
+const state={view:'menu',arg:null,q:'',meal:'auto',cid:'all',tag:'all',sort:'hot',win:0};
+function currentMeal(){
+  const h=new Date().getHours();
+  if(h<10)return'breakfast'; if(h<15)return'lunch'; if(h<20)return'dinner'; return'supper';
+}
+function activeMeal(){return state.meal==='auto'?currentMeal():state.meal}
+
+function go(view,arg){
+  const nav=NAVS.find(n=>n.v===view);
+  if(nav&&nav.guard==='admin'&&!isAdmin()){toast('仅食堂管理员身份可进入管理后台','err');return}
+  state.view=view; state.arg=arg||null;
+  try{window.scrollTo({top:0,behavior:'smooth'})}catch(e){}
+  render();
+}
+function renderNav(){
+  $('#navs').innerHTML=NAVS.filter(n=>!n.guard||isAdmin())
+    .map(n=>`<button class="${state.view===n.v?'on':''}" data-act="go" data-view="${n.v}">${n.n}</button>`).join('');
+  const p=db.profile,ntop=esc((p.nickname||'同学').slice(0,1));
+  $('#ava').textContent=ntop;
+  $('#ava').style.background=isAdmin()?'linear-gradient(135deg,#8B5CF6,#EC4899)':'var(--grad)';
+  $('#meName').textContent=esc(p.nickname||'同学');
+  $('#meRole').textContent=isAdmin()?'食堂管理员':'学生';
+}
+function render(){
+  renderNav();
+  const v=VIEWS[state.view];
+  if(!v){state.view='menu';return render()}
+  if(v.guard==='admin'&&!isAdmin()){state.view='menu';return render()}
+  $('#host').innerHTML=v.render($('#host'));
+  if(v.after)v.after();
+}
+
+/* =========================================================
+   ⑥ 视图：今日菜单（首页）
+   ========================================================= */
+const VIEWS={
+menu:{
+  title:'今日菜单',
+  render(){
+    const meal=activeMeal();
+    const kw=state.q.trim().toLowerCase();
+    let list=liveDishes().filter(d=>{
+      if(state.meal!=='auto'&&!d.meals.includes(meal))return false;
+      if(state.cid!=='all'&&W(d.windowId).canteenId!==state.cid)return false;
+      if(state.tag!=='all'&&!d.tags.includes(state.tag))return false;
+      if(kw){
+        const w=W(d.windowId),c=C(w.canteenId);
+        const hay=(d.name+w.name+c.name+c.code+(w.cat||'')+d.tags.join('')).toLowerCase();
+        if(!hay.includes(kw))return false;
+      }
+      return true;
+    });
+    const cates=list.map(d=>W(d.windowId).cat);
+    list.sort((a,b)=>{
+      if(state.sort==='price-asc')return a.price-b.price;
+      if(state.sort==='price-desc')return b.price-a.price;
+      if(state.sort==='rating')return dishRating(b.id)-dishRating(a.id);
+      return (b.tags.includes('招牌')?1:0)-(a.tags.includes('招牌')?1:0)||dishRating(b.id)-dishRating(a.id);
+    });
+    // Hero 推荐：当前餐次内评分最高的招牌菜，轮播
+    const pool=liveDishes().filter(d=>d.meals.includes(meal));
+    const hero=(state.cid==='all'?pool:pool.filter(d=>W(d.windowId).canteenId===state.cid))
+      .slice().sort((a,b)=>dishRating(b.id)-dishRating(a.id))[0]||pool[0];
+    const totalEat=db.meals.length, totalRev=db.reviews.filter(r=>!r.removed).length;
+
+    return`
+    <section class="hero anim">
+      <div class="hero-txt">
+        <div class="kick">SZTU · ${CANTEENS.length} 大食堂 · 今日${MEALS[meal].n}</div>
+        <h1>今天吃点什么好？</h1>
+        <p>南区 A-0 的家常菜、北区 E-0 的麻辣香锅、E-00 的咖啡宵夜、C-00 湖景的早茶，还有竹韵的烤鱼——${MEALS[meal].n}时段 ${MEALS[meal].t}。</p>
+        <div class="hero-btns">
+          <button class="btn solid" data-act="go" data-view="menu">浏览今日菜单</button>
+          <button class="btn" data-act="go" data-view="rank">看看谁最好吃</button>
+          <button class="btn" data-act="go" data-view="feedback">我要提意见</button>
+        </div>
+        <div class="hero-stats">
+          <div><b>${pool.length}</b><small>今日${MEALS[meal].n}供应</small></div>
+          <div><b>${liveDishes().length}</b><small>在售菜品总数</small></div>
+          <div><b>${totalRev}</b><small>累计同学评价</small></div>
+          <div><b>${totalEat}</b><small>累计就餐打卡</small></div>
+        </div>
+      </div>
+      ${hero?`<div class="hero-dish">
+        ${cover(hero,'', 'width:74px;height:74px;border-radius:16px;font-size:28px;background:rgba(255,255,255,.26)')}
+        <div class="info">
+          <small>今日${MEALS[meal].n}推荐 · ${esc(W(hero.windowId).name)}</small>
+          <b>${esc(hero.name)}</b>
+          ${stars(dishRating(hero.id),'13px')}
+          <span class="price">${money(hero.price)} <span style="font-size:12px;font-weight:500;opacity:.9">· ${hero.kcal} kcal</span></span>
+          <div style="display:flex;gap:7px;margin-top:9px">
+            <button class="btn sm" style="background:#fff;color:var(--orange);border-color:#fff" data-act="open-dish" data-id="${hero.id}">看看详情</button>
+            <button class="btn sm" style="background:rgba(255,255,255,.24);color:#fff;border-color:rgba(255,255,255,.5)" data-act="eat" data-id="${hero.id}">我吃了这道菜</button>
+          </div>
+        </div>
+      </div>`:''}
+    </section>
+
+    <div class="toolbar">
+      <div class="chips">
+        <span class="lb">餐次</span>
+        <button class="chip ${state.meal==='auto'?'on':''}" data-act="set-meal" data-v="auto">推荐时段</button>
+        ${Object.entries(MEALS).map(([k,v])=>`<button class="chip ${state.meal===k?'on':''}" data-act="set-meal" data-v="${k}">${v.n}</button>`).join('')}
+      </div>
+      <select class="sel" data-act="set-cid">
+        <option value="all">全部食堂</option>
+        ${CANTEENS.map(c=>`<option value="${c.id}" ${state.cid===c.id?'selected':''}>${c.name}（${c.area.split(' · ')[0]}）</option>`).join('')}
+      </select>
+      <select class="sel" data-act="set-sort">
+        <option value="hot" ${state.sort==='hot'?'selected':''}>综合推荐</option>
+        <option value="rating" ${state.sort==='rating'?'selected':''}>评分最高</option>
+        <option value="price-asc" ${state.sort==='price-asc'?'selected':''}>价格从低到高</option>
+        <option value="price-desc" ${state.sort==='price-desc'?'selected':''}>价格从高到低</option>
+      </select>
+      <div class="spacer"></div>
+      <span class="tiny muted">共 <b class="num">${list.length}</b> 道菜</span>
+    </div>
+
+    <div class="chips" style="margin-bottom:20px">
+      <span class="lb">口味标签</span>
+      ${['all','招牌','必吃','素食','微辣','重辣','低卡','轻食','小吃','宵夜','聚餐','新品'].map(t=>
+        `<button class="chip ${state.tag===t?'on':''}" data-act="set-tag" data-v="${t}">${t==='all'?'全部':t}</button>`).join('')}
+    </div>
+
+    <div class="section-title">
+      <div><h2>${state.cid==='all'?'今日供应':esc(C(state.cid).name)+' · 今日供应'}</h2>
+      <div class="sub">${state.meal==='auto'?'按当前时间推荐 '+MEALS[meal].n+' 时段':MEALS[meal].n+' '+MEALS[meal].t}${kw?` · 搜索「${esc(state.q)}」`:''}</div></div>
+    </div>
+    ${list.length?`<div class="grid g3">${list.map(dishCard).join('')}</div>`:
+      `<div class="empty"><div class="ic">🍽</div><b>这个筛选下暂时没有菜</b><small>换个餐次、食堂或标签试试</small></div>`}
+
+    <div class="section-title"><div><span class="eyebrow">SZTUCANTEENS</span><h2>五大食堂导览</h2>
+      <div class="sub">想吃性价比去 A-0 / E-0，拍照去 C-00 湖景，西餐宵夜去 E-00，烧烤聚餐去竹韵</div></div></div>
+    <div class="grid g3">${CANTEENS.map(canteenCard).join('')}</div>
+    `;
+  }
+}
+};
+
+function dishCard(d){
+  const w=W(d.windowId),c=C(w.canteenId),r=dishRating(d.id),rt=dishRev(d.id).length;
+  const fav=(db.favorites||[]).includes(d.id);
+  return`<article class="dish" data-act="open-dish" data-id="${d.id}">
+    <div class="cover" style="background:${coverOf(d)}">
+      <span>${esc(d.name.slice(0,1))}</span>
+      ${(d.tags[0]&&d.tags[0]!=='家常')?`<span class="badge">${esc(d.tags[0])}</span>`:''}
+      <span class="kcal">🔥 ${d.kcal} kcal</span>
+    </div>
+    <div class="body">
+      <h4>${esc(d.name)}</h4>
+      <div class="from">${esc(c.name)} · ${esc(w.name)}</div>
+      <div class="tags">${d.tags.filter(t=>t!=='家常').slice(0,3).map(t=>`<span class="tag ${tagCls(t)}">${esc(t)}</span>`).join('')}</div>
+      <div class="foot">
+        <span class="price">${money(d.price)}<small> 元</small></span>
+        <span style="display:flex;align-items:center;gap:6px">${stars(r,'13px')}<span class="tiny num" style="color:var(--t3)">${rt?r.toFixed(1)+' ('+rt+')':'暂无'}</span></span>
+      </div>
+      <div class="acts">
+        <button class="btn sm primary" data-act="eat" data-id="${d.id}">🍚 我吃了这道菜</button>
+        <button class="btn sm ghost" data-act="fav" data-id="${d.id}">${fav?'★ 已收藏':'☆ 收藏'}</button>
+      </div>
+    </div>
+  </article>`;
+}
+function tagCls(t){
+  if(['招牌','必吃'].includes(t))return'amber';
+  if(['素食','低卡','轻食'].includes(t))return'green';
+  if(['微辣','重辣'].includes(t))return'red';
+  if(['宵夜','小吃'].includes(t))return'blue';
+  return'';
+}
+function canteenCard(c){
+  const ds=liveDishes().filter(d=>W(d.windowId).canteenId===c.id);
+  const avg=ds.length?ds.reduce((a,b)=>a+dishRating(b.id),0)/ds.length:0;
+  return`<article class="cant" data-act="set-cid-card" data-id="${c.id}">
+    <div class="top" style="background:linear-gradient(135deg,${c.gram[0]},${c.gram[1]})">
+      <div class="code">${esc(c.code)}</div>
+      <h3>${esc(c.name)}</h3>
+      <div class="area">${esc(c.area)}</div>
+    </div>
+    <div class="txt">
+      <div class="meta">
+        <span class="tag amber">${esc(c.tag)}</span>
+        <span class="tag green">均分 ${avg.toFixed(1)}</span>
+        <span class="tag">${ds.length} 道菜</span>
+      </div>
+      <p style="margin-top:12px">${esc(c.desc)}</p>
+      <div class="wins"><b>主要窗口：</b>${esc(c.wins)}</div>
+      <div class="wins"><b>营业时间：</b>${esc(c.hours)}</div>
+    </div>
+  </article>`;
+}
+
+/* ===== 追加视图：菜品详情 ===== */
+Object.assign(VIEWS,{
+dish:{
+  title:'菜品详情',
+  render(){
+    const d=D(state.arg);
+    if(!d||d.removed) return`<div class="empty"><div class="ic">🥄</div><b>菜品不存在或已下架</b><small>回到今日菜单看看别的吧</small>
+      <div style="margin-top:16px"><button class="btn primary" data-act="go" data-view="menu">返回今日菜单</button></div></div>`;
+    const w=W(d.windowId),c=C(w.canteenId),rs=dishRev(d.id).sort((a,b)=>b.createdAt-a.createdAt);
+    const avg=dishRating(d.id),fav=(db.favorites||[]).includes(d.id);
+    const dist=[5,4,3,2,1].map(n=>({n,c:rs.filter(r=>r.rating===n).length}));
+    const pk=d.protein*4, fk=d.fat*9, ck=d.carb*4, tk=pk+fk+ck||1;
+    const my=rs.filter(r=>r.author===db.profile.nickname).length;
+    const eaten=db.meals.filter(m=>m.author==='我'&&m.dishId===d.id).length;
+    return`
+    <div class="anim" style="display:flex;align-items:center;gap:12px;margin:24px 0 18px;flex-wrap:wrap">
+      <button class="btn ghost sm" data-act="back">← 返回菜单</button>
+      <span class="tag gray">${esc(c.name)} · ${esc(w.name)}</span>
+      ${(my||eaten)?`<span class="tag green">我评价过 ${my} 次 · 吃过 ${eaten} 次</span>`:''}
+      <div class="spacer" style="flex:1"></div>
+      <button class="btn sm ${fav?'primary':'ghost'}" data-act="fav" data-id="${d.id}">${fav?'★ 已收藏':'☆ 收藏'}</button>
+    </div>
+
+    <div class="card" style="padding:26px;margin-bottom:22px;overflow:hidden">
+      <div style="display:grid;grid-template-columns:220px 1fr;gap:26px;align-items:start">
+        ${cover(d,'','height:200px;border-radius:var(--r);font-size:78px')}
+        <div>
+          <h1 style="font-size:32px;font-weight:800;letter-spacing:-.7px">${esc(d.name)}</h1>
+          <div style="display:flex;align-items:center;gap:10px;margin:9px 0 12px;flex-wrap:wrap">
+            ${stars(avg,'17px')}
+            <b class="score" style="font-size:20px">${avg?avg.toFixed(1):'暂无'}</b>
+            <span class="tiny muted">${rs.length} 条同学评价</span>
+          </div>
+          <div class="tags" style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:14px">
+            ${d.tags.map(t=>`<span class="tag ${tagCls(t)}">${esc(t)}</span>`).join('')}
+            <span class="tag gray">${esc(w.cat)}</span>
+            ${d.meals.map(m=>`<span class="tag blue">${MEALS[m].n}供应</span>`).join('')}
+          </div>
+          <div style="display:flex;gap:22px;flex-wrap:wrap;align-items:center;margin-bottom:16px">
+            <div><span class="price" style="font-size:34px;font-weight:800;color:var(--orange)">${money(d.price)}</span></div>
+            <div><small class="muted tiny">参考热量</small><b style="display:block;font-size:20px">${d.kcal} <small class="muted" style="font-size:12px">kcal</small></b></div>
+            <div><small class="muted tiny">所属食堂</small><b style="display:block;font-size:15px">${esc(c.name)}</b></div>
+            <div><small class="muted tiny">支付方式</small><b style="display:block;font-size:15px">校园卡 / 微信 / 支付宝</b></div>
+          </div>
+          <div style="display:flex;gap:10px;flex-wrap:wrap">
+            <button class="btn primary" data-act="eat" data-id="${d.id}">🍚 我吃了这道菜</button>
+            <button class="btn green" data-act="open-review" data-id="${d.id}">⭐ 给这道菜打分</button>
+          </div>
+        </div>
+      </div>
+      <div class="sep"></div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:26px;align-items:center">
+        <div>
+          <h4 style="font-size:15px;font-weight:700;margin-bottom:12px">营养结构（按热量占比）</h4>
+          ${[['蛋白质',d.protein,pk,'var(--grad)'],['脂肪',d.fat,fk,'linear-gradient(90deg,#F97316,#FB923C)'],['碳水化合物',d.carb,ck,'linear-gradient(90deg,#16A085,#4FD1B0)']]
+            .map(([n,g,k,bg])=>`<div style="margin-bottom:11px">
+              <div style="display:flex;justify-content:space-between;font-size:13px;margin-bottom:5px">
+                <span>${n} <b class="num">${g} g</b></span><span class="muted num">${Math.round(k/tk*100)}%</span>
+              </div>
+              <div class="bar"><i style="width:${Math.round(k/tk*100)}%;background:${bg}"></i></div>
+            </div>`).join('')}
+        </div>
+        <div>
+          <h4 style="font-size:15px;font-weight:700;margin-bottom:12px">星级分布</h4>
+          ${dist.map(x=>`<div style="display:flex;align-items:center;gap:10px;margin-bottom:7px">
+            <span style="width:34px;font-size:12.5px;color:var(--t2)">${x.n} 星</span>
+            <div class="bar" style="flex:1"><i style="width:${rs.length?x.c/rs.length*100:0}%"></i></div>
+            <span class="tiny num" style="width:26px;text-align:right;color:var(--t3)">${x.c}</span>
+          </div>`).join('')}
+        </div>
+      </div>
+    </div>
+
+    <div class="section-title"><div><h2>同学评价 <span class="tiny muted">（${rs.length}）</span></h2>
+      <div class="sub">按时间倒序，觉得有用可以给同学点赞</div></div>
+      <button class="btn green sm" data-act="open-review" data-id="${d.id}">写评价</button></div>
+    ${rs.length?`<div class="grid g2">${rs.map(r=>`
+      <div class="card flat anim">
+        <div style="display:flex;align-items:center;gap:11px;margin-bottom:10px">
+          <div class="cover" style="width:38px;height:38px;border-radius:12px;font-size:15px;flex-shrink:0;background:${coverOf({id:r.author,name:r.author})}"><span>${esc(r.author.slice(0,1))}</span></div>
+          <div style="flex:1"><b style="font-size:14px">${esc(r.author)}</b>
+            <div style="display:flex;align-items:center;gap:7px">${stars(r.rating,'12px')}<small class="muted tiny">${ago(r.createdAt)}</small></div></div>
+          <button class="btn sm ghost" data-act="like-review" data-id="${r.id}">👍 ${r.likes}</button>
+        </div>
+        <p style="font-size:14px;color:var(--t2);line-height:1.75">${esc(r.text)}</p>
+      </div>`).join('')}</div>`:
+      `<div class="empty"><div class="ic">💬</div><b>还没有人评价这道菜</b><small>来当第一个吃螃蟹的人吧</small></div>`}
+
+    <div class="section-title"><div><h2>同窗口其它菜品</h2><div class="sub">${esc(c.name)} · ${esc(w.name)}</div></div></div>
+    <div class="grid g3">${liveDishes().filter(x=>x.windowId===d.windowId&&x.id!==d.id).slice(0,6).map(dishCard).join('')||'<div class="empty">暂无</div>'}</div>
+    `;
+  }
+},
+rank:{
+  title:'口碑排行',
+  render(){
+    const rows=db.windows.filter(w=>!w.removed).map(w=>{
+      const s=windowAvg(w.id); const c=C(w.canteenId);
+      const ds=liveDishes().filter(d=>d.windowId===w.id);
+      return{w,c,s,ds,score:s.count?s.avg*Math.log10(s.count+10):0};
+    }).filter(x=>x.ds.length).sort((a,b)=>b.s.avg-a.s.avg||b.s.count-a.s.count);
+    const cid=state.rcid||'all';
+    const list=cid==='all'?rows:rows.filter(x=>x.w.canteenId===cid);
+    const top=list.slice(0,3); const rest=list.slice(3);
+    const medal=['🥇','🥈','🥉'], mt=['gold','silver','bronze'];
+    return`
+    <div class="anim" style="margin:26px 0 18px">
+      <span class="eyebrow">RANKING</span>
+      <h1 style="font-size:32px;font-weight:800;letter-spacing:-.7px">食堂窗口口碑排行</h1>
+      <p class="muted" style="margin-top:7px">数据来自同学真实评分，按平均分排序；只统计有同学在售菜品的窗口。</p>
+    </div>
+    <div class="chips" style="margin-bottom:22px">
+      <span class="lb">食堂</span>
+      <button class="chip ${cid==='all'?'on':''}" data-act="set-rcid" data-v="all">全部食堂</button>
+      ${CANTEENS.map(c=>`<button class="chip ${cid===c.id?'on':''}" data-act="set-rcid" data-v="${c.id}">${c.name}</button>`).join('')}
+    </div>
+
+    ${top.length?`<div class="section-title"><div><h2>🏅 前三强</h2><div class="sub">${cid==='all'?'全校范围':esc(C(cid).name)+' 范围'}评分最高的三个窗口</div></div></div>
+    <div class="grid g3">${top.map((x,i)=>`
+      <div class="card anim" style="padding:0;overflow:hidden;border:2px solid ${['#FFB020','#C0C6CC','#D99A6C'][i]};box-shadow:0 12px 30px rgba(255,122,47,.14)">
+        <div style="padding:20px 22px 6px;display:flex;align-items:center;gap:10px">
+          <span style="font-size:30px">${medal[i]}</span>
+          <div><b style="font-size:18px">${esc(x.w.name)}</b><div class="tiny muted">${esc(x.c.name)} · ${esc(x.w.cat)}</div></div>
+        </div>
+        <div style="padding:8px 22px 22px">
+          <div style="display:flex;align-items:baseline;gap:9px;margin:6px 0 8px">
+            <span style="font-size:38px;font-weight:800;color:var(--orange);line-height:1">${x.s.avg.toFixed(1)}</span>
+            ${stars(x.s.avg,'15px')}
+          </div>
+          <div class="meta" style="display:flex;gap:7px;flex-wrap:wrap">
+            <span class="tag">${x.s.count} 条评价</span><span class="tag gray">${x.ds.length} 道在售</span>
+            <span class="tag green">均价 ${money(x.ds.reduce((a,b)=>a+b.price,0)/x.ds.length)}</span>
+          </div>
+          <div class="tiny muted" style="margin-top:12px;line-height:1.8">代表菜：${x.ds.slice().sort((a,b)=>dishRating(b.id)-dishRating(a.id)).slice(0,3).map(d=>esc(d.name)).join('、')}</div>
+          <button class="btn primary sm block" style="margin-top:14px" data-act="goto-window" data-id="${x.w.id}">查看该窗口菜品</button>
+        </div>
+      </div>`).join('')}</div>`:''}
+
+    <div class="section-title"><div><h2>完整榜单 <span class="tiny muted">（${list.length} 个窗口）</span></h2>
+      <div class="sub">综合平均分、评价条数与菜品丰富度排序</div></div></div>
+    ${rest.length?`<div class="rows">${rest.map((x,i)=>`
+      <div class="row anim">
+        <div style="width:40px;height:40px;border-radius:12px;background:var(--grad-soft);display:grid;place-items:center;font-weight:800;color:var(--orange);flex-shrink:0">${i+4}</div>
+        <div style="flex:1;min-width:0">
+          <b style="font-size:15.5px">${esc(x.w.name)}</b>
+          <div class="tiny muted">${esc(x.c.name)} · ${esc(x.w.cat)} · ${x.ds.length} 道在售</div>
+        </div>
+        <div style="width:180px"><div class="bar"><i style="width:${x.s.avg/5*100}%"></i></div>
+          <div class="tiny muted" style="margin-top:4px">${x.s.count} 条评价 · 均坪 ${money(x.ds.reduce((a,b)=>a+b.price,0)/x.ds.length)}</div></div>
+        <div style="text-align:right;min-width:96px">
+          <span class="score" style="font-size:22px">${x.s.avg.toFixed(1)}</span>
+          <div style="margin-top:2px">${stars(x.s.avg,'12px')}</div>
+        </div>
+        <button class="btn ghost sm" data-act="goto-window" data-id="${x.w.id}">看菜</button>
+      </div>`).join('')}</div>`:
+      `<div class="empty"><div class="ic">📊</div><b>暂无更多窗口</b><small>切换其它食堂看看</small></div>`}
+
+    ${list.length===0?`<div class="empty"><div class="ic">🍽</div><b>该食堂暂无评分数据</b><small>去今日菜单吃一顿再来打分吧</small></div>`:''}
+    `;
+  }
+}
+});
+
+/* ===== 追加视图：意见反馈 ===== */
+Object.assign(VIEWS,{
+feedback:{
+  title:'意见反馈',
+  render(){
+    const pendings=db.feedbacks.filter(f=>f.status==='pending');
+    const mineAll=db.feedbacks.slice().reverse();
+    const st=state.fbStatus||'all';
+    const list=st==='all'?mineAll:mineAll.filter(f=>f.status===st);
+    const opts=db.windows.filter(w=>!w.removed).sort((a,b)=>{
+      const ca=CANTEENS.findIndex(c=>c.id===a.canteenId), cb=CANTEENS.findIndex(c=>c.id===b.canteenId);
+      return ca-cb||a.name.localeCompare(b.name);
+    });
+    return`
+    <div class="anim" style="margin:26px 0 18px">
+      <span class="eyebrow">FEEDBACK</span>
+      <h1 style="font-size:32px;font-weight:800;letter-spacing:-.7px">意见反馈与投诉处理</h1>
+      <p class="muted" style="margin-top:7px">饭菜质量、卫生状况、价格收费、服务态度——直接反馈到具体窗口，${isAdmin()?'由你（食堂管理员）受理回复':'食堂管理员会在线受理并回复'}。</p>
+    </div>
+
+    ${isAdmin()?'':`<div class="card" style="padding:26px;margin-bottom:24px">
+      <h2 style="font-size:19px;font-weight:700;margin-bottom:14px">📝 我要提意见</h2>
+      <div class="grid g2" style="margin-bottom:14px">
+        <div class="field" style="margin:0">
+          <label>反馈窗口</label>
+          <select class="sel" data-act="set-fbwin" style="width:100%;border-radius:var(--r-sm);padding:11px 14px">
+            ${opts.map(w=>`<option value="${w.id}" ${state.fbWin===w.id?'selected':''}>${esc(C(w.canteenId).name)} · ${esc(w.name)}</option>`).join('')}
+          </select>
+        </div>
+        <div class="field" style="margin:0">
+          <label>问题类型</label>
+          <div class="chips" style="padding-top:5px">
+            ${FB_TYPES.map(t=>`<button class="chip ${(state.fbType||FB_TYPES[0])===t?'on':''}" data-act="set-fbtype" data-v="${esc(t)}">${esc(t)}</button>`).join('')}
+          </div>
+        </div>
+      </div>
+      <div class="field" style="margin:0">
+        <label>具体描述 <span class="muted" style="font-weight:400">（不少于 5 个字，最多 200 字）</span></label>
+        <textarea class="ta" id="fbText" placeholder="例如：麻辣烫窗口的汤底最近偏咸，连续两天都齁，希望能调整一下口味。" maxlength="200"></textarea>
+      </div>
+      <div style="display:flex;justify-content:space-between;align-items:center;gap:12px;margin-top:16px;flex-wrap:wrap">
+        <small class="muted tiny">提交后管理员会在处理记录里留痕，处理进度可在下方时间线查看</small>
+        <button class="btn primary" data-act="submit-fb">提交反馈</button>
+      </div>
+    </div>`}
+
+    ${isAdmin()?`<div class="section-title"><div><h2>🔔 待受理 <span class="tag amber">${pendings.length}</span></h2>
+      <div class="sub">受理后同学能立刻看到回复；驳回需要给出理由</div></div></div>
+      ${pendings.length?`<div class="rows">${pendings.map(f=>{
+        const w=W(f.windowId),c=C(w.canteenId);
+        return`<div class="card flat anim" style="padding:20px">
+          <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-bottom:10px">
+            <span class="tag red">${esc(f.type)}</span>
+            <b style="font-size:15px">${esc(c.name)} · ${esc(w.name)}</b>
+            <span class="tiny muted">来自 ${esc(f.author)} · ${ago(f.createdAt)}</span>
+          </div>
+          <p style="font-size:14.5px;color:var(--t2);line-height:1.8">${esc(f.text)}</p>
+          <div style="display:flex;gap:9px;margin-top:14px;flex-wrap:wrap">
+            <input class="field" id="rp-${f.id}" placeholder="输入回复内容…" style="flex:1;min-width:220px;padding:10px 14px;border:1.5px solid rgba(255,122,47,.18);border-radius:var(--r-sm);font-size:14px;font-family:inherit;outline:none">
+            <button class="btn green sm" data-act="reply-fb" data-id="${f.id}">✓ 受理并回复</button>
+            <button class="btn ghost sm" data-act="reject-fb" data-id="${f.id}">✕ 驳回</button>
+          </div>
+        </div>`}).join('')}</div>`:
+        `<div class="empty"><div class="ic">✅</div><b>暂时没有待处理的反馈</b><small>同学们这个月都很满意</small></div>`}`:''}
+
+    <div class="section-title">
+      <div><h2>📮 全部反馈 <span class="tiny muted">（${mineAll.length}）</span></h2>
+      <div class="sub">${isAdmin()?'师生提交的全部意见与处理结果':'点击查看管理员的回复进度'}</div></div>
+      <select class="sel" data-act="set-fbstatus">
+        <option value="all" ${st==='all'?'selected':''}>全部状态</option>
+        <option value="pending" ${st==='pending'?'selected':''}>待处理</option>
+        <option value="resolved" ${st==='resolved'?'selected':''}>已回复</option>
+        <option value="rejected" ${st==='rejected'?'selected':''}>已驳回</option>
+      </select>
+    </div>
+    ${list.length?`<div class="rows">${list.map(f=>{
+      const w=W(f.windowId),c=C(w.canteenId),s=FB_STATUS[f.status],mine=f.author===db.profile.nickname;
+      return`<div class="card flat anim" style="padding:20px">
+        <div style="display:flex;align-items:center;gap:9px;flex-wrap:wrap;margin-bottom:9px">
+          <span class="tag ${s.c}">${s.n}</span>
+          <span class="tag gray">${esc(f.type)}</span>
+          <b style="font-size:15px">${esc(c.name)} · ${esc(w.name)}</b>
+          ${mine?`<span class="tag blue">我提交的</span>`:`<span class="tiny muted">来自 ${esc(f.author)}</span>`}
+          <span class="spacer" style="flex:1"></span>
+          <span class="tiny muted">${fmtDT(f.createdAt)}</span>
+        </div>
+        <p style="font-size:14.5px;color:var(--t2);line-height:1.8">${esc(f.text)}</p>
+        ${f.reply?`<div style="margin-top:12px;padding:13px 15px;background:${f.status==='resolved'?'rgba(22,160,133,.06)':'rgba(229,72,77,.06)'};border-left:3px solid ${f.status==='resolved'?'var(--green)':'var(--danger)'};border-radius:0 var(--r-sm) var(--r-sm) 0">
+          <b class="tiny" style="color:${f.status==='resolved'?'var(--green)':'var(--danger)'}">管理员回复 · ${f.repliedAt?fmtDT(f.repliedAt):''}</b>
+          <p style="font-size:14px;margin-top:5px;line-height:1.75">${esc(f.reply)}</p></div>`:
+          `<div class="tiny muted" style="margin-top:12px">⏳ 等待食堂管理员受理…</div>`}
+      </div>`}).join('')}</div>`:
+      `<div class="empty"><div class="ic">📭</div><b>该状态下暂无反馈</b><small>换个筛选条件看看</small></div>`}
+    `;
+  }
+}
+});
+
+/* ===== 追加视图：我的消费与营养统计 ===== */
+Object.assign(VIEWS,{
+stats:{
+  title:'消费与营养',
+  render(){
+    const ms=myMeals().slice().sort((a,b)=>b.date.localeCompare(a.date));
+    const now=new Date(), mk=now.getFullYear()+'-'+pad(now.getMonth()+1);
+    const lastM=new Date(now.getFullYear(),now.getMonth()-1,1);
+    const lastK=lastM.getFullYear()+'-'+pad(lastM.getMonth()+1);
+    const cur=ms.filter(m=>monthOf(m.date)===mk), prev=ms.filter(m=>monthOf(m.date)===lastK);
+    const sum=a=>a.reduce((s,x)=>s+x,0);
+    const spent=sum(cur.map(m=>m.price)), spentPrev=sum(prev.map(m=>m.price));
+    const pBlock=sum(cur.map(m=>m.protein)), fBlock=sum(cur.map(m=>m.fat)), cBlock=sum(cur.map(m=>m.carb));
+    const pk=pBlock*4, fk=fBlock*9, ck=cBlock*4, tk=pk+fk+ck||1;
+    const trendUp=spentPrev>0?((spent-spentPrev)/spentPrev*100):null;
+    // 近 6 个月
+    const months=[]; for(let i=5;i>=0;i--){const d=new Date(now.getFullYear(),now.getMonth()-i,1);
+      months.push({k:`${d.getFullYear()}-${pad(d.getMonth()+1)}`,lb:`${d.getMonth()+1}月`,v:0})}
+    ms.forEach(m=>{const f=months.find(x=>x.k===monthOf(m.date)); if(f)f.v+=m.price});
+    const maxV=Math.max(...months.map(m=>m.v),1);
+    // 食堂分布
+    const byC={}; cur.forEach(m=>{const wid=m.windowId||(db.dishes.find(d=>d.name===m.dishName)||{}).windowId;
+      const w=db.windows.find(x=>x.id===wid); const cid=w?w.canteenId:null; if(cid)byC[cid]=(byC[cid]||0)+m.price});
+    const cRows=Object.entries(byC).sort((a,b)=>b[1]-a[1]);
+    // 记录流水（近 30 条，按日期分组）
+    const recent=ms.slice(0,30), groups={};
+    recent.forEach(m=>{(groups[m.date]=groups[m.date]||[]).push(m)});
+    const a=Math.round(pk/tk*100), bTmp=Math.round(fk/tk*100);
+    const topDishes=[...new Set(ms.map(m=>m.dishName))].map(n=>{
+      const rs=ms.filter(m=>m.dishName===n);
+      return{name:n,c:rs.length,spent:sum(rs.map(m=>m.price))};
+    }).sort((x,y)=>y.c-x.c).slice(0,5);
+
+    return`
+    <div class="anim" style="margin:26px 0 18px">
+      <span class="eyebrow">MY STATS</span>
+      <h1 style="font-size:32px;font-weight:800;letter-spacing:-.7px">我的消费与营养</h1>
+      <p class="muted" style="margin-top:7px">在菜单页点「🍚 我吃了这道菜」即可打卡，这里会自动累计金额、热量与三大营养素。</p>
+    </div>
+
+    <div class="grid g4" style="margin-bottom:22px">
+      <div class="stat"><div class="lb">💰 本月消费</div>
+        <div class="vl" style="color:var(--orange)">${money(spent)}</div>
+        <div class="ds">${trendUp===null?'上月无记录':(trendUp>=0?`较上月 ↑${trendUp.toFixed(0)}%`:`较上月 ↓${Math.abs(trendUp).toFixed(0)}%`)}</div></div>
+      <div class="stat green"><div class="lb">🍽 本月就餐</div>
+        <div class="vl" style="color:var(--green)">${cur.length}<small>次</small></div>
+        <div class="ds">共 ${new Set(cur.map(m=>m.dishName)).size} 道不同菜品</div></div>
+      <div class="stat blue"><div class="lb">🧾 平均单价</div>
+        <div class="vl" style="color:var(--info)">${cur.length?money(spent/cur.length):'¥0'}</div>
+        <div class="ds">深技大均值约 ¥10–15 / 餐</div></div>
+      <div class="stat amber"><div class="lb">🔥 本月摄入</div>
+        <div class="vl" style="color:#B45309">${Math.round(sum(cur.map(m=>m.kcal))/1000*10)/10}<small>千 kcal</small></div>
+        <div class="ds">日均 ${cur.length?Math.round(sum(cur.map(m=>m.kcal))/30):0} kcal</div></div>
+    </div>
+
+    <div class="grid g2" style="margin-bottom:22px">
+      <div class="card">
+        <h3 style="font-size:17px;font-weight:700;margin-bottom:16px">近六个月消费趋势</h3>
+        <div class="bars">${months.map(m=>`<div class="col">
+          <span class="amt">${m.v?money(m.v):''}</span>
+          <div class="b" style="height:${Math.max(4,m.v/maxV*100)}%"></div>
+          <small>${m.lb}</small></div>`).join('')}</div>
+      </div>
+      <div class="card">
+        <h3 style="font-size:17px;font-weight:700;margin-bottom:16px">本月三大营养素结构</h3>
+        <div style="display:flex;gap:24px;align-items:center;flex-wrap:wrap">
+          <div class="ring" style="background:conic-gradient(#FF7A2F 0 ${a}%, #F97316 ${a}% ${a+bTmp}%, #16A085 ${a+bTmp}% 100%)">
+            <div class="cap"><b>${Math.round(tk)}</b><small>本月 kcal</small></div>
+          </div>
+          <div class="legend" style="flex:1;min-width:180px">
+            ${[['蛋白质',pBlock,pk,'#FF7A2F'],['脂肪',fBlock,fk,'#F97316'],['碳水化合物',cBlock,ck,'#16A085']]
+              .map(([n,g,k,color])=>`<div class="item"><span class="dot" style="background:${color}"></span>
+                <span>${n}</span><b class="num">${Math.round(g)} g · ${Math.round(k/tk*100)}%</b></div>`).join('')}
+            <div class="sep" style="margin:10px 0"></div>
+            <div class="tiny muted">按热量占比计算：蛋白 ×4、脂肪 ×9、碳水 ×4 kcal/g</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="grid g2" style="margin-bottom:22px">
+      <div class="card">
+        <h3 style="font-size:17px;font-weight:700;margin-bottom:14px">本月食堂消费分布</h3>
+        ${cRows.length?cRows.map(([cid,v])=>{const c=C(cid)||{name:'未知',gram:['#FF7A2F','#FFB020']};
+          return`<div style="margin-bottom:12px">
+            <div style="display:flex;justify-content:space-between;font-size:13.5px;margin-bottom:5px">
+              <span>${esc(c.name)}</span><b class="num">${money(v)}</b></div>
+            <div class="bar"><i style="width:${Math.round(v/(cRows[0][1]||1)*100)}%;background:linear-gradient(90deg,${c.gram[0]},${c.gram[1]})"></i></div>
+          </div>`}).join(''):`<div class="empty" style="padding:30px"><small>本月还没有打卡记录</small></div>`}
+      </div>
+      <div class="card">
+        <h3 style="font-size:17px;font-weight:700;margin-bottom:14px">我最常吃的菜 Top 5</h3>
+        ${topDishes.length?`<div class="rows">${topDishes.map((x,i)=>`
+          <div class="row" style="padding:11px 14px">
+            <div class="cover" style="width:34px;height:34px;border-radius:10px;font-size:14px;flex-shrink:0;background:${coverOf({id:x.name,name:x.name})}"><span>${esc(x.name.slice(0,1))}</span></div>
+            <div style="flex:1"><b style="font-size:14px">${esc(x.name)}</b>
+              <div class="tiny muted">累计消费 ${money(x.spent)}</div></div>
+            <span class="tag amber">${i+1}</span>
+            <span class="tag">${x.c} 次</span>
+          </div>`).join('')}</div>`:`<div class="empty" style="padding:30px"><small>还没有记录，去菜单打卡一道菜吧</small></div>`}
+      </div>
+    </div>
+
+    <div class="section-title"><div><h2>🧾 就餐流水 <span class="tiny muted">（最近 ${recent.length} 条）</span></h2>
+      <div class="sub">按日期倒序，删除后金额与营养会自动重算</div></div>
+      <button class="btn primary sm" data-act="go" data-view="menu">去打卡 →</button></div>
+    ${recent.length?Object.entries(groups).map(([date,arr])=>`
+      <div style="margin-bottom:16px">
+        <div style="display:flex;align-items:center;gap:10px;margin-bottom:9px">
+          <b style="font-size:14px">${esc(date)}</b>
+          <span class="tiny muted">共 ${arr.length} 条 · ${money(sum(arr.map(m=>m.price)))} · ${sum(arr.map(m=>m.kcal))} kcal</span>
+          <div style="flex:1;height:1px;background:rgba(255,122,47,.13)"></div>
+        </div>
+        <div class="rows">${arr.map(m=>{const w=db.windows.find(x=>x.id===m.windowId);const c=w?C(w.canteenId):null;
+          return`<div class="row" style="padding:11px 15px">
+            <div class="cover" style="width:36px;height:36px;border-radius:11px;font-size:15px;flex-shrink:0;background:${coverOf({id:m.dishName,name:m.dishName})}"><span>${esc(m.dishName.slice(0,1))}</span></div>
+            <div style="flex:1;min-width:0"><b style="font-size:14.5px">${esc(m.dishName)}</b>
+              <div class="tiny muted">${c?esc(c.name)+(w?' · '+esc(w.name):''):''}</div></div>
+            <span class="tag gray">${m.kcal} kcal</span>
+            <b class="num" style="color:var(--orange);min-width:52px;text-align:right">${money(m.price)}</b>
+            <button class="btn ghost sm" data-act="del-meal" data-id="${m.id}">删除</button>
+          </div>`}).join('')}</div>
+      </div>`).join(''):
+      `<div class="empty"><div class="ic">🧾</div><b>还没有就餐记录</b><small>回到今日菜单，点「我吃了这道菜」试试</small></div>`}
+    `;
+  }
+},
+admin:{
+  title:'管理后台',
+  guard:'admin',
+  render(){
+    const today=ymd();
+    const revToday=db.reviews.filter(r=>!r.removed&&fmtDT(r.createdAt).slice(0,10)===today).length;
+    const pending=db.feedbacks.filter(f=>f.status==='pending');
+    const mk=today.slice(0,7);
+    const eatMonth=db.meals.filter(m=>monthOf(m.date)===mk).length;
+    const cid=state.acid||'all';
+    const dishes=db.dishes.filter(d=>cid==='all'||W(d.windowId).canteenId===cid)
+      .sort((a,b)=>(a.removed?1:0)-(b.removed?1:0)||W(a.windowId).canteenId.localeCompare(W(b.windowId).canteenId)||a.price-b.price);
+    const logs=db.adminLogs.slice().sort((a,b)=>b.createdAt-a.createdAt);
+    return`
+    <div class="anim" style="margin:26px 0 18px">
+      <span class="eyebrow">ADMIN</span>
+      <h1 style="font-size:32px;font-weight:800;letter-spacing:-.7px">食堂管理后台</h1>
+      <p class="muted" style="margin-top:7px">受理师生意见、维护五大食堂菜品与价格，所有操作会写入处理记录。</p>
+    </div>
+
+    <div class="grid g4" style="margin-bottom:22px">
+      <div class="stat"><div class="lb">🍲 在售菜品</div><div class="vl" style="color:var(--orange)">${liveDishes().length}</div>
+        <div class="ds">共 ${db.dishes.length} 道（含下架）</div></div>
+      <div class="stat green"><div class="lb">⭐ 今日评价</div><div class="vl" style="color:var(--green)">${revToday}</div>
+        <div class="ds">累计 ${db.reviews.filter(r=>!r.removed).length} 条</div></div>
+      <div class="stat amber"><div class="lb">📮 待处理反馈</div><div class="vl" style="color:#B45309">${pending.length}</div>
+        <div class="ds">共 ${db.feedbacks.length} 条反馈</div></div>
+      <div class="stat blue"><div class="lb">🍚 本月打卡</div><div class="vl" style="color:var(--info)">${eatMonth}</div>
+        <div class="ds">累计 ${db.meals.length} 次就餐</div></div>
+    </div>
+
+    <div class="card" style="padding:24px;margin-bottom:22px">
+      <div style="display:flex;align-items:center;flex-wrap:wrap;gap:12px;margin-bottom:16px">
+        <h2 style="font-size:18px;font-weight:700">🍽 菜品维护</h2>
+        <div class="spacer" style="flex:1"></div>
+        <select class="sel" data-act="set-acid">
+          <option value="all">全部食堂</option>
+          ${CANTEENS.map(c=>`<option value="${c.id}" ${cid===c.id?'selected':''}>${c.name}</option>`).join('')}
+        </select>
+        <button class="btn primary sm" data-act="add-dish">＋ 新增菜品</button>
+      </div>
+      <div style="overflow:auto;max-height:460px">
+        <table style="width:100%;border-collapse:collapse;font-size:13.5px;min-width:640px">
+          <thead><tr style="text-align:left;color:var(--t3);font-size:12px;border-bottom:1.5px solid rgba(255,122,47,.14)">
+            <th style="padding:9px 10px">菜品</th><th style="padding:9px 10px">所属食堂 / 窗口</th>
+            <th style="padding:9px 10px">价格</th><th style="padding:9px 10px">热量</th>
+            <th style="padding:9px 10px">评分</th><th style="padding:9px 10px">状态</th><th style="padding:9px 10px;text-align:right">操作</th>
+          </tr></thead>
+          <tbody>${dishes.map(d=>{const w=W(d.windowId),c=C(w.canteenId),r=dishRating(d.id);
+            return`<tr style="border-bottom:1px solid rgba(255,122,47,.07);${d.removed?'opacity:.5':''}">
+              <td style="padding:10px"><div style="display:flex;align-items:center;gap:9px">
+                <span class="cover" style="width:30px;height:30px;border-radius:9px;font-size:13px;flex-shrink:0;background:${coverOf(d)}"><span>${esc(d.name.slice(0,1))}</span></span>
+                <b>${esc(d.name)}</b></div></td>
+              <td style="padding:10px" class="muted">${esc(c.code)} · ${esc(w.name)}</td>
+              <td style="padding:10px"><b class="num" style="color:var(--orange)">${money(d.price)}</b></td>
+              <td style="padding:10px" class="num muted">${d.kcal} kcal</td>
+              <td style="padding:10px">${r?`<span class="score num">${r.toFixed(1)}</span>`:'<span class="muted">—</span>'}</td>
+              <td style="padding:10px">${d.removed?'<span class="tag red">已下架</span>':'<span class="tag green">在售</span>'}</td>
+              <td style="padding:10px;text-align:right;white-space:nowrap">
+                <button class="btn ghost sm" data-act="edit-price" data-id="${d.id}">改价</button>
+                <button class="btn ${d.removed?'green':'danger'} sm" data-act="toggle-dish" data-id="${d.id}">${d.removed?'恢复':'下架'}</button>
+              </td></tr>`}).join('')}</tbody>
+        </table>
+      </div>
+      <div class="tiny muted" style="margin-top:12px">共 ${dishes.length} 道 · 下架后学生端立即不可见，可随时恢复</div>
+    </div>
+
+    <div class="grid g2">
+      <div class="card">
+        <h2 style="font-size:18px;font-weight:700;margin-bottom:14px">📮 待受理反馈 <span class="tag amber">${pending.length}</span></h2>
+        ${pending.length?`<div class="rows">${pending.slice(0,6).map(f=>{const w=W(f.windowId),c=C(w.canteenId);
+          return`<div class="row" style="align-items:flex-start;flex-direction:column;gap:8px">
+            <div style="display:flex;gap:8px;flex-wrap:wrap;width:100%">
+              <span class="tag red">${esc(f.type)}</span><b style="font-size:14px">${esc(c.code)} · ${esc(w.name)}</b>
+              <span class="spacer" style="flex:1"></span><span class="tiny muted">${ago(f.createdAt)}</span>
+            </div>
+            <p class="tiny" style="color:var(--t2);line-height:1.75">${esc(f.text)}</p>
+            <div style="display:flex;gap:8px;width:100%">
+              <input id="ad-${f.id}" placeholder="回复内容…" style="flex:1;min-width:130px;padding:8px 12px;border:1.5px solid rgba(255,122,47,.18);border-radius:var(--r-sm);font-size:13px;font-family:inherit;outline:none">
+              <button class="btn green sm" data-act="reply-fb" data-id="${f.id}">受理回复</button>
+              <button class="btn ghost sm" data-act="reject-fb" data-id="${f.id}">驳回</button>
+            </div></div>`}).join('')}</div>`:
+          `<div class="empty" style="padding:34px"><div class="ic">✅</div><b>暂无待处理反馈</b></div>`}
+      </div>
+      <div class="card">
+        <h2 style="font-size:18px;font-weight:700;margin-bottom:14px">🕘 处理记录 <span class="tiny muted">（${logs.length}）</span></h2>
+        ${logs.length?`<div style="position:relative;padding-left:20px">
+          <div style="position:absolute;left:6px;top:6px;bottom:6px;width:2px;background:linear-gradient(180deg,var(--orange),rgba(255,176,32,.25))"></div>
+          ${logs.slice(0,12).map(l=>`<div style="position:relative;margin-bottom:16px">
+            <span style="position:absolute;left:-18px;top:5px;width:10px;height:10px;border-radius:50%;background:var(--grad);box-shadow:0 0 0 3px rgba(255,122,47,.14)"></span>
+            <b style="font-size:14px">${esc(l.action)} · ${esc(l.target)}</b>
+            <div class="tiny muted" style="margin-top:3px">${esc(l.detail)}</div>
+            <div class="tiny" style="color:var(--t3);margin-top:2px">${fmtDT(l.createdAt)}</div>
+          </div>`).join('')}</div>`:
+          `<div class="empty" style="padding:34px"><small>暂无操作记录</small></div>`}
+      </div>
+    </div>
+    `;
+  }
+}
+});
+
+
+/* =========================================================
+   ⑦ 事件委托
+   ========================================================= */
+const ACTIONS={
+  'pick-role'(el){
+    document.querySelectorAll('.role-card').forEach(c=>c.classList.remove('on'));
+    el.classList.add('on'); this._role=el.dataset.role;
+  },
+  async 'enter'(){
+    const nick=$('#nick').value.trim();
+    if(!nick){toast('请先填个昵称吧','err');$('#nick').focus();return}
+    db.profile.nickname=nick;
+    db.profile.studentId=$('#sid').value.trim();
+    db.profile.role=this._role||'student';
+    save();
+    $('#gate').style.transition='opacity .3s'; $('#gate').style.opacity='0';
+    setTimeout(()=>{$('#gate').remove();$('#app').hidden=false;toast(`欢迎你，${nick}！当前身份：${db.profile.role==='admin'?'食堂管理员':'学生'}`,'ok');render()},300);
+  },
+  'go'(el){go(el.dataset.view)},
+  'set-meal'(el){state.meal=el.dataset.v;render()},
+  'set-tag'(el){state.tag=el.dataset.v;render()},
+  'set-cid-card'(el){const id=el.dataset.id;state.cid=state.cid===id?'all':id;if(state.view!=='menu')return go('menu');render()},
+  'open-dish'(el){go('dish',el.dataset.id)},
+  'back'(){go('menu')},
+  'eat'(el){ eatDish(el.dataset.id) },
+  'fav'(el){ favDish(el.dataset.id) },
+  'avatar'(){
+    const other=isAdmin()?'student':'admin';
+    modal(`<h3>身份管理</h3><div class="msg">当前：<b>${esc(db.profile.nickname)}</b>（${isAdmin()?'食堂管理员':'学生'}）。切换身份不会丢失任何数据。</div>
+      <div class="acts">
+        <button class="btn ghost" data-act="reset-data">恢复初始数据</button>
+        <button class="btn primary" data-act="switch-role" data-role="${other}">切换为${other==='admin'?'食堂管理员':'学生'}</button>
+      </div>`);
+  },
+  'switch-role'(el){db.profile.role=el.dataset.role;save();closeModal();render();toast('已切换为'+(isAdmin()?'食堂管理员':'学生'),'ok')},
+  async 'reset-data'(){
+    closeModal();
+    if(await confirmBox('恢复初始数据？','这会清空你在本地产生的<b>打卡记录、评价、反馈</b>，恢复到内置演示数据。此操作不可撤销。','确认清空',true)){
+      resetDB();render();toast('已恢复到初始演示数据','ok');
+    }
+  },
+  'modal-close'(){closeModal()},
+  'modal-no'(){const r=_p1;_p1=null;closeModal();r&&r(false)},
+  'modal-yes'(){const r=_p1;_p1=null;closeModal();r&&r(true)}
+};
+
+function eatDish(id){
+  const d=D(id); if(!d)return;
+  db.meals.push({id:uid(),author:'我',dishId:d.id,dishName:d.name,windowId:d.windowId,
+    price:d.price,kcal:d.kcal,protein:d.protein,fat:d.fat,carb:d.carb,date:ymd()});
+  const p=db.profile;
+  save(); render(); toast(`已记录「${d.name}」 ${money(d.price)} · ${d.kcal} kcal`,'ok');
+}
+function favDish(id){
+  db.favorites=db.favorites||[];
+  const i=db.favorites.indexOf(id);
+  if(i>=0){db.favorites.splice(i,1);toast('已取消收藏')}else{db.favorites.push(id);toast('已加入收藏 ★','ok')}
+  save(); render();
+}
+
+/* ===== 追加动作：评分、点赞、排行跳转 ===== */
+let pending=null;
+const RATE_LABEL={1:'1 分 · 不太行',2:'2 分 · 一般',3:'3 分 · 还行',4:'4 分 · 好吃',5:'5 分 · 非常好吃'};
+Object.assign(ACTIONS,{
+  'set-cid'(el){state.cid=el.value;render()},
+  'set-sort'(el){state.sort=el.value;render()},
+  'set-rcid'(el){state.rcid=el.dataset.v;render()},
+  'goto-window'(el){
+    const w=W(el.dataset.id);
+    if(!w)return;
+    state.cid=w.canteenId; state.tag='all'; state.q=''; state.meal='auto';
+    $('#q').value=''; go('menu');
+    toast(`已切到 ${C(w.canteenId).name} · ${w.name}`,'ok');
+  },
+  'open-review'(el){
+    const d=D(el.dataset.id); if(!d)return;
+    pending={dishId:d.id,rating:5};
+    const RATE_TEXT={1:'',2:'',3:'',4:'',5:''};
+    modal(`<h3>评价「${esc(d.name)}」</h3>
+      <div class="msg tiny" style="margin-bottom:10px">${esc(C(W(d.windowId).canteenId).name)} · ${esc(W(d.windowId).name)} · ${money(d.price)}</div>
+      <div class="pick">${[1,2,3,4,5].map(n=>`<button data-act="pick-star" data-v="${n}" class="on">★</button>`).join('')}</div>
+      <div class="center tiny" id="pickLabel" style="color:var(--orange);font-weight:700;margin-bottom:12px">${RATE_LABEL[5]}</div>
+      <textarea class="ta" id="rvText" placeholder="说说口味、分量、价格和排队情况，帮同学避坑 / 种草…" maxlength="140"></textarea>
+      <div class="acts"><button class="btn ghost" data-act="modal-no">取消</button>
+      <button class="btn primary" data-act="submit-review">提交评价</button></div>`);
+  },
+  'pick-star'(el){
+    const n=+el.dataset.v; if(!pending)return;
+    pending.rating=n;
+    document.querySelectorAll('#pickStar .pick button, .pick button').forEach(b=>b.classList.remove('on'));
+    el.parentElement.querySelectorAll('button').forEach((b,i)=>{if(i<n)b.classList.add('on')});
+    const lb=document.getElementById('pickLabel'); if(lb)lb.textContent=RATE_LABEL[n];
+  },
+  'submit-review'(){
+    if(!pending)return;
+    const text=($('#rvText')?.value||'').trim();
+    if(!text){toast('写两句吧，哪怕一个词也好','err');$('#rvText').focus();return}
+    db.reviews.push({id:uid(),dishId:pending.dishId,author:db.profile.nickname||'同学',
+      rating:pending.rating,text,likes:0,createdAt:Date.now(),removed:false});
+    const nm=D(pending.dishId).name;
+    pending=null; save(); closeModal(); render();
+    toast(`感谢评价「${nm}」！`,'ok');
+  },
+  'like-review'(el){
+    const r=db.reviews.find(x=>x.id===el.dataset.id); if(!r)return;
+    r.likes++; save(); render(); toast('已点赞 👍','ok');
+  }
+});
+
+/* ===== 追加动作：反馈流转、删除记录、菜单管理 ===== */
+function addLog(action,target,detail){
+  db.adminLogs.push({id:uid(),action,target,detail,createdAt:Date.now()});
+}
+Object.assign(ACTIONS,{
+  'set-fbwin'(el){state.fbWin=el.value;},
+  'set-fbstatus'(el){state.fbStatus=el.value;render()},
+  'set-fbtype'(el){state.fbType=el.dataset.v;render()},
+  'set-acid'(el){state.acid=el.value;render()},
+  'submit-fb'(){
+    const text=($('#fbText')?.value||'').trim();
+    if(text.length<5){toast('至少写 5 个字，方便管理员定位问题','err');$('#fbText').focus();return}
+    const wid=state.fbWin||db.windows[0].id;
+    db.feedbacks.push({id:uid(),windowId:wid,author:db.profile.nickname||'同学',
+      type:state.fbType||FB_TYPES[0],text,status:'pending',reply:'',repliedAt:null,createdAt:Date.now()});
+    save(); render(); toast('反馈已提交，食堂管理员会尽快受理','ok');
+  },
+  'reply-fb'(el){
+    const id=el.dataset.id, f=db.feedbacks.find(x=>x.id===id); if(!f)return;
+    const box=document.getElementById('rp-'+id)||document.getElementById('ad-'+id);
+    const rp=(box?.value||'').trim();
+    if(!rp){toast('请先填写回复内容','err');box&&box.focus();return}
+    f.status='resolved'; f.reply=rp; f.repliedAt=Date.now();
+    const w=W(f.windowId);
+    addLog('受理回复',`${C(w.canteenId).code} · ${w.name}`,`回复「${f.type}」类反馈：${rp.slice(0,24)}${rp.length>24?'…':''}`);
+    save(); render(); toast('已受理并回复该反馈','ok');
+  },
+  'reject-fb'(el){
+    const id=el.dataset.id, f=db.feedbacks.find(x=>x.id===id); if(!f)return;
+    modal(`<h3>驳回反馈</h3><div class="msg">请填写驳回理由，同学会在自己的反馈里看到。</div>
+      <textarea class="ta" id="rj" style="margin-top:12px" placeholder="例如：该窗口定价由后勤统一核定，暂不支持调整…" maxlength="140"></textarea>
+      <div class="acts"><button class="btn ghost" data-act="modal-no">取消</button>
+      <button class="btn danger" data-act="do-reject" data-id="${id}">确认驳回</button></div>`);
+  },
+  'do-reject'(el){
+    const f=db.feedbacks.find(x=>x.id===el.dataset.id); if(!f)return;
+    const why=(document.getElementById('rj')?.value||'').trim();
+    if(!why){toast('请填写驳回理由','err');document.getElementById('rj').focus();return}
+    f.status='rejected'; f.reply=why; f.repliedAt=Date.now();
+    const w=W(f.windowId);
+    addLog('驳回反馈',`${C(w.canteenId).code} · ${w.name}`,`驳回「${f.type}」类反馈：${why.slice(0,24)}${why.length>24?'…':''}`);
+    save(); closeModal(); render(); toast('已驳回该反馈','ok');
+  },
+  'del-meal'(el){
+    const i=db.meals.findIndex(m=>m.id===el.dataset.id); if(i<0)return;
+    const name=db.meals[i].dishName;
+    db.meals.splice(i,1); save(); render(); toast(`已删除「${name}」的就餐记录`);
+  },
+  'add-dish'(){
+    modal(`<h3>新增菜品</h3>
+      <div class="field" style="margin-top:12px"><label>所属窗口</label>
+        <select id="nw" style="width:100%;padding:11px 14px;border:1.5px solid rgba(255,122,47,.18);border-radius:var(--r-sm);font-size:14px;font-family:inherit">
+        ${db.windows.filter(w=>!w.removed).map(w=>`<option value="${w.id}">${esc(C(w.canteenId).name)} · ${esc(w.name)}</option>`).join('')}
+        </select></div>
+      <div class="grid g2" style="gap:12px">
+        <div class="field" style="margin:0"><label>菜名</label><input id="nn" maxlength="16" placeholder="例如：黑椒鸡扒饭"></div>
+        <div class="field" style="margin:0"><label>价格（元）</label><input id="np" type="number" min="1" max="99" value="15"></div>
+        <div class="field" style="margin:0"><label>热量（kcal）</label><input id="nk" type="number" min="1" max="2000" value="600"></div>
+        <div class="field" style="margin:0"><label>标签（逗号分隔）</label><input id="nt" placeholder="招牌,微辣"></div>
+        <div class="field" style="margin:0"><label>蛋白 g / 脂肪 g / 碳水 g</label>
+          <div style="display:flex;gap:6px"><input id="npr" type="number" value="30" min="0"><input id="nf" type="number" value="25" min="0"><input id="nc" type="number" value="60" min="0"></div></div>
+        <div class="field" style="margin:0"><label>供餐时段</label>
+          <select id="nm" multiple size="3" style="width:100%;padding:8px;border:1.5px solid rgba(255,122,47,.18);border-radius:var(--r-sm);font-family:inherit">
+          <option value="breakfast" selected>早餐</option><option value="lunch" selected>午餐</option><option value="dinner" selected>晚餐</option><option value="supper">宵夜</option></select></div>
+      </div>
+      <div class="acts"><button class="btn ghost" data-act="modal-no">取消</button>
+      <button class="btn primary" data-act="create-dish">创建菜品</button></div>`);
+  },
+  'create-dish'(){
+    const name=($('#nn')?.value||'').trim();
+    if(!name){toast('请填写菜名','err');$('#nn').focus();return}
+    const meals=[...($('#nm')?.selectedOptions||[])].map(o=>o.value);
+    if(!meals.length){toast('至少选择一个供餐时段','err');return}
+    const tags=($('#nt')?.value||'').split(',').map(s=>s.trim()).filter(Boolean);
+    const d={id:'d'+uid(),windowId:$('#nw').value,name,
+      price:Math.max(1,+$('#np').value||15),kcal:Math.max(1,+$('#nk').value||600),
+      protein:+$('#npr').value||0,fat:+$('#nf').value||0,carb:+$('#nc').value||0,
+      tags,meals,removed:false};
+    db.dishes.push(d);
+    const w=W(d.windowId);
+    addLog('新增菜品',`${C(w.canteenId).code} · ${w.name}`,`上架「${name}」 ${money(d.price)} · ${d.kcal} kcal`);
+    save(); closeModal(); render(); toast(`已上架「${name}」`,'ok');
+  },
+  'edit-price'(el){
+    const d=D(el.dataset.id); if(!d)return;
+    modal(`<h3>修改价格 · ${esc(d.name)}</h3>
+      <div class="msg tiny">${esc(C(W(d.windowId).canteenId).name)} · ${esc(W(d.windowId).name)}　原价 ${money(d.price)}</div>
+      <div class="field" style="margin-top:12px"><label>新价格（元）</label>
+        <input id="pv" type="number" min="1" max="99" step="0.5" value="${d.price}"></div>
+      <div class="acts"><button class="btn ghost" data-act="modal-no">取消</button>
+      <button class="btn primary" data-act="save-price" data-id="${d.id}">保存</button></div>`);
+  },
+  'save-price'(el){
+    const d=D(el.dataset.id); if(!d)return;
+    const v=+$('#pv').value;
+    if(!v||v<1||v>99){toast('请输入 1–99 之间的价格','err');return}
+    const old=d.price; d.price=Math.round(v*10)/10;
+    const w=W(d.windowId);
+    addLog('调整价格',`${C(w.canteenId).code} · ${w.name}`,`「${d.name}」${money(old)} → ${money(d.price)}`);
+    save(); closeModal(); render(); toast(`「${d.name}」价格已改为 ${money(d.price)}`,'ok');
+  },
+  async 'toggle-dish'(el){
+    const d=D(el.dataset.id); if(!d)return;
+    const w=W(d.windowId), name=d.name;
+    if(!d.removed){
+      if(!await confirmBox('下架这道菜？',`下架「<b>${esc(name)}</b>」后，学生端将立即看不到它，其评分也会从窗口口碑中剔除。`,'确认下架',true))return;
+      d.removed=true;
+      addLog('下架菜品',`${C(w.canteenId).code} · ${w.name}`,`下架「${name}」（${money(d.price)}）`);
+      toast(`已下架「${name}」`,'ok');
+    }else{
+      d.removed=false;
+      addLog('恢复菜品',`${C(w.canteenId).code} · ${w.name}`,`恢复上架「${name}」（${money(d.price)}）`);
+      toast(`已恢复「${name}」`,'ok');
+    }
+    save(); render();
+  }
+});
+
+/* =========================================================
+   ⑧ 启动
+   ========================================================= */
+document.addEventListener('click',e=>{
+  const el=e.target.closest('[data-act]'); if(!el)return;
+  const fn=ACTIONS[el.dataset.act]; if(!fn)return;
+  if(el.tagName==='SELECT')return;
+  e.preventDefault(); e.stopPropagation(); fn.call(ACTIONS,el,e);
+});
+document.addEventListener('change',e=>{
+  const el=e.target.closest('[data-act]'); if(!el||el.tagName!=='SELECT')return;
+  const fn=ACTIONS[el.dataset.act]; if(fn){fn.call(ACTIONS,el,e)}
+});
+$('#q').addEventListener('input',e=>{state.q=e.target.value;if(state.view!=='menu')return go('menu');render();$('#q').focus()});
+window.addEventListener('scroll',()=>{$('#topbar').classList.toggle('scrolled',window.scrollY>8)});
+load();
+if(db.profile.nickname){ // 已设置过昵称，直接进站，无需重复选择身份
+  $('#gate').remove(); $('#app').hidden=false; render();
+}
+</script>
+</body>
+</html>
