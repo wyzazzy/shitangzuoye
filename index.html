@@ -10,19 +10,19 @@
    ① CSS 设计系统：变量
    ========================================================= */
 :root{
-  --orange:#FF7A2F; --amber:#FFB020; --green:#16A085;
-  --bg:#FFF8F1; --card:#FFFFFF; --cream:#FFF1E2;
+  --orange:#0EA5E9; --amber:#14B8A6; --green:#16A085;
+  --bg:#F0F9FF; --card:#FFFFFF; --cream:#E0F2FE;
   --t1:#1F2937; --t2:#6B7280; --t3:#9CA3AF;
-  --ok:#16A085; --danger:#E5484D; --warn:#F5A524; --info:#2563EB;
+  --ok:#16A085; --danger:#E5484D; --warn:#2DD4BF; --info:#2563EB;
   --r-lg:26px; --r:18px; --r-sm:12px; --r-xs:9px;
-  --sh-xs:0 1px 3px rgba(255,122,47,.06);
-  --sh-sm:0 4px 14px rgba(255,122,47,.09);
-  --sh:0 10px 28px rgba(255,122,47,.13);
-  --sh-lg:0 22px 54px rgba(255,122,47,.20);
+  --sh-xs:0 1px 3px rgba(14,165,233,.06);
+  --sh-sm:0 4px 14px rgba(14,165,233,.09);
+  --sh:0 10px 28px rgba(14,165,233,.13);
+  --sh-lg:0 22px 54px rgba(14,165,233,.20);
   --ease:cubic-bezier(.22,.86,.36,1);
   --t:.22s var(--ease);
-  --grad:linear-gradient(135deg,#FF7A2F 0%,#FFB020 100%);
-  --grad-soft:linear-gradient(135deg,#FFF1E2 0%,#FFF8F1 100%);
+  --grad:linear-gradient(135deg,#0EA5E9 0%,#14B8A6 100%);
+  --grad-soft:linear-gradient(135deg,#E0F2FE 0%,#F0F9FF 100%);
   --nav-h:70px;
 }
 *,*::before,*::after{box-sizing:border-box}
@@ -32,7 +32,7 @@ body{
   font-family:"PingFang SC","Hiragino Sans GB","Microsoft YaHei",system-ui,-apple-system,"Segoe UI",sans-serif;
   font-size:15px; line-height:1.65; -webkit-font-smoothing:antialiased;
   background-image:
-    radial-gradient(900px 480px at 8% -6%, rgba(255,176,32,.16), transparent 62%),
+    radial-gradient(900px 480px at 8% -6%, rgba(20,184,166,.16), transparent 62%),
     radial-gradient(760px 420px at 96% 4%, rgba(22,160,133,.13), transparent 60%);
   background-attachment:fixed;
 }
@@ -40,10 +40,10 @@ h1,h2,h3,h4{margin:0; line-height:1.28}
 p{margin:0}
 button{font-family:inherit}
 a{color:inherit; text-decoration:none}
-::selection{background:rgba(255,122,47,.22)}
+::selection{background:rgba(14,165,233,.22)}
 ::-webkit-scrollbar{width:10px;height:10px}
-::-webkit-scrollbar-thumb{background:rgba(255,122,47,.26); border-radius:99px; border:3px solid transparent; background-clip:padding-box}
-::-webkit-scrollbar-thumb:hover{background:rgba(255,122,47,.45); background-clip:padding-box}
+::-webkit-scrollbar-thumb{background:rgba(14,165,233,.26); border-radius:99px; border:3px solid transparent; background-clip:padding-box}
+::-webkit-scrollbar-thumb:hover{background:rgba(14,165,233,.45); background-clip:padding-box}
 
 /* 动效 */
 @keyframes rise{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:none}}
@@ -51,7 +51,7 @@ a{color:inherit; text-decoration:none}
 @keyframes fadeIn{from{opacity:0}to{opacity:1}}
 @keyframes floatY{0%,100%{transform:translateY(0)}50%{transform:translateY(-9px)}}
 @keyframes shimmer{0%{background-position:0% 50%}100%{background-position:220% 50%}}
-@keyframes glowPulse{0%,100%{box-shadow:0 0 0 0 rgba(255,122,47,.34)}50%{box-shadow:0 0 0 12px rgba(255,122,47,0)}}
+@keyframes glowPulse{0%,100%{box-shadow:0 0 0 0 rgba(14,165,233,.34)}50%{box-shadow:0 0 0 12px rgba(14,165,233,0)}}
 @keyframes barGrow{from{height:0}}
 @keyframes countUp{from{opacity:.2; transform:translateY(6px)}to{opacity:1; transform:none}}
 .anim{animation:rise .4s var(--ease) both}
@@ -69,10 +69,10 @@ a{color:inherit; text-decoration:none}
 }
 .btn:hover{transform:translateY(-2px); box-shadow:var(--sh-sm)}
 .btn:active{transform:translateY(0) scale(.97)}
-.btn.primary{background:var(--grad); color:#fff; box-shadow:0 6px 18px rgba(255,122,47,.30)}
-.btn.primary:hover{box-shadow:0 12px 26px rgba(255,122,47,.40)}
+.btn.primary{background:var(--grad); color:#fff; box-shadow:0 6px 18px rgba(14,165,233,.30)}
+.btn.primary:hover{box-shadow:0 12px 26px rgba(14,165,233,.40)}
 .btn.green{background:linear-gradient(135deg,#16A085,#1FAE91); color:#fff; box-shadow:0 6px 18px rgba(22,160,133,.28)}
-.btn.ghost{background:rgba(255,255,255,.9); border:1.5px solid rgba(255,122,47,.24)}
+.btn.ghost{background:rgba(255,255,255,.9); border:1.5px solid rgba(14,165,233,.24)}
 .btn.ghost:hover{border-color:var(--orange)}
 .btn.danger{background:linear-gradient(135deg,#E5484D,#FF6B6F); color:#fff; box-shadow:0 6px 18px rgba(229,72,77,.28)}
 .btn.sm{padding:6px 13px; font-size:13px; border-radius:99px}
@@ -81,7 +81,7 @@ a{color:inherit; text-decoration:none}
 
 .card{
   background:var(--card); border-radius:var(--r); padding:20px;
-  box-shadow:var(--sh-sm); border:1px solid rgba(255,122,47,.07);
+  box-shadow:var(--sh-sm); border:1px solid rgba(14,165,233,.07);
   transition:transform var(--t), box-shadow var(--t);
 }
 .card:hover{transform:translateY(-4px); box-shadow:var(--sh)}
@@ -90,12 +90,12 @@ a{color:inherit; text-decoration:none}
 .tag{
   display:inline-flex; align-items:center; gap:4px; font-size:11.5px; font-weight:600;
   padding:3px 9px; border-radius:99px; background:var(--cream); color:var(--orange);
-  border:1px solid rgba(255,122,47,.16); white-space:nowrap;
+  border:1px solid rgba(14,165,233,.16); white-space:nowrap;
 }
 .tag.green{background:rgba(22,160,133,.10); color:var(--green); border-color:rgba(22,160,133,.22)}
 .tag.red{background:rgba(229,72,77,.10); color:var(--danger); border-color:rgba(229,72,77,.22)}
 .tag.blue{background:rgba(37,99,235,.09); color:var(--info); border-color:rgba(37,99,235,.20)}
-.tag.amber{background:rgba(245,165,36,.13); color:#B45309; border-color:rgba(245,165,36,.26)}
+.tag.amber{background:rgba(20,184,166,.13); color:#0E7490; border-color:rgba(20,184,166,.26)}
 .tag.gray{background:#F3F4F6; color:var(--t2); border-color:#E5E7EB}
 
 .grid{display:grid; gap:18px}
@@ -107,15 +107,15 @@ a{color:inherit; text-decoration:none}
 .section-title .sub{color:var(--t2); font-size:13px; margin-top:3px}
 .eyebrow{
   display:inline-block; font-size:12px; font-weight:700; letter-spacing:2px;
-  color:var(--orange); background:rgba(255,122,47,.09); padding:4px 11px; border-radius:99px; margin-bottom:9px;
+  color:var(--orange); background:rgba(14,165,233,.09); padding:4px 11px; border-radius:99px; margin-bottom:9px;
 }
 .muted{color:var(--t2)}
 .tiny{font-size:12.5px}
 .center{text-align:center}
-.sep{height:1px; background:rgba(255,122,47,.11); margin:20px 0}
+.sep{height:1px; background:rgba(14,165,233,.11); margin:20px 0}
 
 .stars{display:inline-flex; gap:2px; font-size:14px; line-height:1; color:#E5E7EB}
-.stars i{font-style:normal; background:linear-gradient(135deg,#FFB020,#FF7A2F); -webkit-background-clip:text; background-clip:text; color:transparent}
+.stars i{font-style:normal; background:linear-gradient(135deg,#14B8A6,#0EA5E9); -webkit-background-clip:text; background-clip:text; color:transparent}
 .stars i.off{color:#E5E7EB; background:none; -webkit-text-fill-color:#E5E7EB}
 .score{font-weight:800; color:var(--orange)}
 .num{font-variant-numeric:tabular-nums}
@@ -136,18 +136,18 @@ a{color:inherit; text-decoration:none}
    ========================================================= */
 .topbar{
   position:sticky; top:0; z-index:60;
-  background:rgba(255,248,241,.80); backdrop-filter:blur(20px) saturate(180%);
+  background:rgba(240,249,255,.80); backdrop-filter:blur(20px) saturate(180%);
   -webkit-backdrop-filter:blur(20px) saturate(180%);
-  border-bottom:1px solid rgba(255,122,47,.13);
+  border-bottom:1px solid rgba(14,165,233,.13);
   transition:box-shadow var(--t), background var(--t);
 }
-.topbar.scrolled{box-shadow:0 8px 26px rgba(255,122,47,.14); background:rgba(255,248,241,.93)}
+.topbar.scrolled{box-shadow:0 8px 26px rgba(14,165,233,.14); background:rgba(240,249,255,.93)}
 .topbar-in{height:var(--nav-h); display:flex; align-items:center; gap:18px}
 .brand{display:flex; align-items:center; gap:11px; flex-shrink:0}
 .brand .logo{
   width:42px; height:42px; border-radius:13px; background:var(--grad); color:#fff;
   display:grid; place-items:center; font-size:20px; font-weight:800;
-  box-shadow:0 6px 16px rgba(255,122,47,.34); animation:glowPulse 3.4s var(--ease) infinite;
+  box-shadow:0 6px 16px rgba(14,165,233,.34); animation:glowPulse 3.4s var(--ease) infinite;
 }
 .brand b{font-size:17px; font-weight:800; letter-spacing:-.3px; display:block}
 .brand small{display:block; font-size:11px; color:var(--t3); letter-spacing:.6px; margin-top:-2px}
@@ -157,17 +157,17 @@ a{color:inherit; text-decoration:none}
   border:none; background:transparent; cursor:pointer; padding:8px 14px; border-radius:99px;
   font-size:14px; font-weight:600; color:var(--t2); transition:all var(--t); white-space:nowrap;
 }
-.navs button:hover{background:rgba(255,122,47,.09); color:var(--orange)}
-.navs button.on{background:var(--grad); color:#fff; box-shadow:0 5px 15px rgba(255,122,47,.30)}
+.navs button:hover{background:rgba(14,165,233,.09); color:var(--orange)}
+.navs button.on{background:var(--grad); color:#fff; box-shadow:0 5px 15px rgba(14,165,233,.30)}
 .spacer{flex:1}
 .searchbar{
-  display:flex; align-items:center; gap:8px; background:#fff; border:1.5px solid rgba(255,122,47,.16);
+  display:flex; align-items:center; gap:8px; background:#fff; border:1.5px solid rgba(14,165,233,.16);
   border-radius:99px; padding:7px 15px; min-width:190px; transition:all var(--t);
 }
-.searchbar:focus-within{border-color:var(--orange); box-shadow:0 0 0 4px rgba(255,122,47,.12)}
+.searchbar:focus-within{border-color:var(--orange); box-shadow:0 0 0 4px rgba(14,165,233,.12)}
 .searchbar input{border:none; outline:none; background:transparent; font-size:14px; width:120px; font-family:inherit}
 .me{display:flex; align-items:center; gap:9px; cursor:pointer; padding:5px 13px 5px 5px; border-radius:99px;
-   border:1.5px solid rgba(255,122,47,.18); background:#fff; transition:all var(--t)}
+   border:1.5px solid rgba(14,165,233,.18); background:#fff; transition:all var(--t)}
 .me:hover{box-shadow:var(--sh-sm); border-color:var(--orange)}
 .me .ava{
   width:34px; height:34px; border-radius:50%; background:var(--grad); color:#fff; display:grid; place-items:center;
@@ -183,9 +183,9 @@ a{color:inherit; text-decoration:none}
 .gate{
   position:fixed; inset:0; z-index:200; display:grid; place-items:center; padding:24px;
   background:
-    radial-gradient(1100px 600px at 10% 0%, rgba(255,176,32,.28), transparent 60%),
+    radial-gradient(1100px 600px at 10% 0%, rgba(20,184,166,.28), transparent 60%),
     radial-gradient(900px 560px at 92% 12%, rgba(22,160,133,.22), transparent 62%),
-    linear-gradient(160deg,#FFF8F1,#FFF1E2);
+    linear-gradient(160deg,#F0F9FF,#E0F2FE);
   animation:fadeIn .4s var(--ease);
 }
 .gate-box{
@@ -196,7 +196,7 @@ a{color:inherit; text-decoration:none}
 .gate-head{text-align:center; margin-bottom:26px}
 .gate-head .logo{
   width:64px; height:64px; border-radius:20px; background:var(--grad); color:#fff; margin:0 auto 14px;
-  display:grid; place-items:center; font-size:30px; font-weight:800; box-shadow:0 12px 30px rgba(255,122,47,.36);
+  display:grid; place-items:center; font-size:30px; font-weight:800; box-shadow:0 12px 30px rgba(14,165,233,.36);
   animation:floatY 3.6s var(--ease) infinite;
 }
 .gate-head h1{font-size:30px; font-weight:800; letter-spacing:-.6px}
@@ -214,13 +214,13 @@ a{color:inherit; text-decoration:none}
 .field{margin-bottom:14px}
 .field label{display:block; font-size:13px; font-weight:600; margin-bottom:6px; color:var(--t2)}
 .field input{
-  width:100%; padding:12px 15px; border:1.5px solid rgba(255,122,47,.18); border-radius:var(--r-sm);
+  width:100%; padding:12px 15px; border:1.5px solid rgba(14,165,233,.18); border-radius:var(--r-sm);
   font-size:15px; font-family:inherit; outline:none; background:#fff; transition:all var(--t);
 }
-.field input:focus{border-color:var(--orange); box-shadow:0 0 0 4px rgba(255,122,47,.12)}
+.field input:focus{border-color:var(--orange); box-shadow:0 0 0 4px rgba(14,165,233,.12)}
 .gate-tip{
   margin-top:18px; text-align:center; font-size:12px; color:var(--t3); line-height:1.7;
-  border-top:1px dashed rgba(255,122,47,.2); padding-top:14px;
+  border-top:1px dashed rgba(14,165,233,.2); padding-top:14px;
 }
 
 /* =========================================================
@@ -228,7 +228,7 @@ a{color:inherit; text-decoration:none}
    ========================================================= */
 .hero{
   position:relative; overflow:hidden; border-radius:var(--r-lg); padding:34px 38px; margin:26px 0 8px;
-  background:linear-gradient(120deg,#FF7A2F 0%,#FF9A3F 42%,#FFB020 100%);
+  background:linear-gradient(120deg,#0EA5E9 0%,#38BDF8 42%,#14B8A6 100%);
   color:#fff; box-shadow:var(--sh-lg); display:flex; align-items:center; gap:34px; flex-wrap:wrap;
 }
 .hero::before{
@@ -263,29 +263,29 @@ a{color:inherit; text-decoration:none}
    ========================================================= */
 .toolbar{
   position:sticky; top:var(--nav-h); z-index:40; display:flex; gap:10px; align-items:center; flex-wrap:wrap;
-  background:rgba(255,255,255,.86); backdrop-filter:blur(16px); border:1px solid rgba(255,122,47,.11);
+  background:rgba(255,255,255,.86); backdrop-filter:blur(16px); border:1px solid rgba(14,165,233,.11);
   border-radius:var(--r); padding:13px 16px; margin:22px 0; box-shadow:var(--sh-xs);
 }
 .chips{display:flex; gap:7px; flex-wrap:wrap; align-items:center}
 .chips .lb{font-size:12px; color:var(--t3); font-weight:600; margin-right:2px}
 .chip{
-  border:1.5px solid rgba(255,122,47,.18); background:#fff; color:var(--t2); cursor:pointer;
+  border:1.5px solid rgba(14,165,233,.18); background:#fff; color:var(--t2); cursor:pointer;
   padding:6px 14px; border-radius:99px; font-size:13px; font-weight:600; transition:all var(--t);
 }
 .chip:hover{border-color:var(--orange); color:var(--orange); transform:translateY(-1px)}
-.chip.on{background:var(--grad); color:#fff; border-color:transparent; box-shadow:0 4px 12px rgba(255,122,47,.28)}
+.chip.on{background:var(--grad); color:#fff; border-color:transparent; box-shadow:0 4px 12px rgba(14,165,233,.28)}
 select.sel{
-  border:1.5px solid rgba(255,122,47,.18); background:#fff; border-radius:99px; padding:7px 14px;
+  border:1.5px solid rgba(14,165,233,.18); background:#fff; border-radius:99px; padding:7px 14px;
   font-size:13px; font-weight:600; color:var(--t1); outline:none; cursor:pointer; font-family:inherit;
   transition:all var(--t);
 }
-select.sel:focus{border-color:var(--orange); box-shadow:0 0 0 4px rgba(255,122,47,.12)}
+select.sel:focus{border-color:var(--orange); box-shadow:0 0 0 4px rgba(14,165,233,.12)}
 
 /* =========================================================
    ⑦ 菜品卡片
    ========================================================= */
 .dish{
-  background:var(--card); border-radius:var(--r); overflow:hidden; border:1px solid rgba(255,122,47,.07);
+  background:var(--card); border-radius:var(--r); overflow:hidden; border:1px solid rgba(14,165,233,.07);
   box-shadow:var(--sh-sm); cursor:pointer; transition:transform var(--t), box-shadow var(--t);
   display:flex; flex-direction:column; animation:rise .42s var(--ease) both;
 }
@@ -313,7 +313,7 @@ select.sel:focus{border-color:var(--orange); box-shadow:0 0 0 4px rgba(255,122,4
 /* 食堂导览卡 */
 .cant{
   border-radius:var(--r); overflow:hidden; background:#fff; box-shadow:var(--sh-sm);
-  border:1px solid rgba(255,122,47,.07); cursor:pointer; transition:transform var(--t), box-shadow var(--t);
+  border:1px solid rgba(14,165,233,.07); cursor:pointer; transition:transform var(--t), box-shadow var(--t);
   display:flex; flex-direction:column;
 }
 .cant:hover{transform:translateY(-5px); box-shadow:var(--sh-lg)}
@@ -331,13 +331,13 @@ select.sel:focus{border-color:var(--orange); box-shadow:0 0 0 4px rgba(255,122,4
 /* 通用列表行 */
 .row{
   display:flex; align-items:center; gap:14px; padding:14px 18px; background:#fff;
-  border:1px solid rgba(255,122,47,.08); border-radius:var(--r-sm); transition:all var(--t);
+  border:1px solid rgba(14,165,233,.08); border-radius:var(--r-sm); transition:all var(--t);
 }
 .row:hover{box-shadow:var(--sh-sm); transform:translateX(3px)}
 .rows{display:flex; flex-direction:column; gap:11px}
 .empty{
   text-align:center; padding:56px 20px; color:var(--t3); background:#fff;
-  border:1.5px dashed rgba(255,122,47,.22); border-radius:var(--r);
+  border:1.5px dashed rgba(14,165,233,.22); border-radius:var(--r);
 }
 .empty .ic{font-size:42px; margin-bottom:10px; opacity:.55}
 .empty b{display:block; color:var(--t2); font-size:15px; margin-bottom:4px}
@@ -346,13 +346,13 @@ select.sel:focus{border-color:var(--orange); box-shadow:0 0 0 4px rgba(255,122,4
 /* 统计卡 */
 .stat{
   position:relative; overflow:hidden; background:#fff; border-radius:var(--r); padding:20px;
-  box-shadow:var(--sh-sm); border:1px solid rgba(255,122,47,.07); transition:transform var(--t), box-shadow var(--t);
+  box-shadow:var(--sh-sm); border:1px solid rgba(14,165,233,.07); transition:transform var(--t), box-shadow var(--t);
 }
 .stat:hover{transform:translateY(-5px); box-shadow:var(--sh)}
 .stat::before{content:''; position:absolute; left:0; top:0; bottom:0; width:5px; background:var(--grad)}
 .stat.green::before{background:linear-gradient(180deg,#16A085,#4FD1B0)}
 .stat.blue::before{background:linear-gradient(180deg,#2563EB,#60A5FA)}
-.stat.amber::before{background:linear-gradient(180deg,#F5A524,#FBBF24)}
+.stat.amber::before{background:linear-gradient(180deg,#2DD4BF,#5EEAD4)}
 .stat .lb{font-size:12.5px; color:var(--t3); font-weight:600; display:flex; align-items:center; gap:5px}
 .stat .vl{font-size:30px; font-weight:800; letter-spacing:-1px; margin-top:6px; animation:countUp .5s var(--ease) both}
 .stat .vl small{font-size:14px; color:var(--t3); font-weight:600; margin-left:3px}
@@ -374,7 +374,7 @@ select.sel:focus{border-color:var(--orange); box-shadow:0 0 0 4px rgba(255,122,4
 .bars .col .amt{font-size:12px; font-weight:700; color:var(--orange)}
 .ring{
   width:180px; height:180px; border-radius:50%; position:relative; flex-shrink:0;
-  box-shadow:0 10px 28px rgba(255,122,47,.16);
+  box-shadow:0 10px 28px rgba(14,165,233,.16);
 }
 .ring::after{
   content:''; position:absolute; inset:26px; background:#fff; border-radius:50%;
@@ -410,10 +410,10 @@ select.sel:focus{border-color:var(--orange); box-shadow:0 0 0 4px rgba(255,122,4
 #modalRoot .sheet .msg{color:var(--t2); font-size:14px; line-height:1.75}
 #modalRoot .sheet .acts{display:flex; gap:10px; justify-content:flex-end; margin-top:22px; flex-wrap:wrap}
 textarea.ta{
-  width:100%; min-height:96px; padding:12px 14px; border:1.5px solid rgba(255,122,47,.18); border-radius:var(--r-sm);
+  width:100%; min-height:96px; padding:12px 14px; border:1.5px solid rgba(14,165,233,.18); border-radius:var(--r-sm);
   font-family:inherit; font-size:14px; outline:none; resize:vertical; transition:all var(--t); background:#fff;
 }
-textarea.ta:focus{border-color:var(--orange); box-shadow:0 0 0 4px rgba(255,122,47,.12)}
+textarea.ta:focus{border-color:var(--orange); box-shadow:0 0 0 4px rgba(14,165,233,.12)}
 .pick{display:flex; gap:6px; justify-content:center; margin:6px 0 4px}
 .pick button{
   border:none; background:transparent; cursor:pointer; font-size:30px; color:#E5E7EB; padding:0 3px;
@@ -426,7 +426,7 @@ textarea.ta:focus{border-color:var(--orange); box-shadow:0 0 0 4px rgba(255,122,
 .footer{
   margin-top:56px; background:linear-gradient(160deg,#1F2937,#111827); color:#fff; padding:40px 0 26px; position:relative; overflow:hidden;
 }
-.footer::before{content:''; position:absolute; width:500px; height:500px; right:-160px; top:-260px; border-radius:50%; background:radial-gradient(circle, rgba(255,122,47,.22), transparent 66%)}
+.footer::before{content:''; position:absolute; width:500px; height:500px; right:-160px; top:-260px; border-radius:50%; background:radial-gradient(circle, rgba(14,165,233,.22), transparent 66%)}
 .footer .fg{display:grid; grid-template-columns:1.6fr 1fr 1fr 1fr; gap:26px; position:relative; z-index:1}
 .footer h4{font-size:15px; font-weight:700; margin-bottom:12px}
 .footer p,.footer li{font-size:13px; color:rgba(255,255,255,.62); line-height:1.9}
@@ -566,17 +566,17 @@ const CANTEENS=[
   hours:'早餐 6:30–9:00 ｜ 午餐 11:00–13:00 ｜ 晚餐 17:00–19:30',
   desc:'南区宿舍同学的一日三餐首选。基础家常菜齐全、价格亲民，烧鸭饭与三及第汤粉常年排队，赶时间窗口出餐很快。',
   wins:'自选称重餐、广式烧腊、麻辣烫、手工云吞、盖浇饭、石锅拌饭、炸鸡汉堡、水果捞',
-  gram:['#FF7A2F','#FFB020']},
+  gram:['#0EA5E9','#14B8A6']},
  {id:'e0',code:'E-0',name:'E-0 食堂',area:'E 区 · 北区主食堂',tag:'规模最大 · 口味丰富',
   hours:'早餐 6:30–9:00 ｜ 午餐 10:30–13:30 ｜ 晚餐 16:30–20:00',
   desc:'全校规模最大的学生食堂，多层就餐区、座位充足。川湘粤菜系都有，自选餐、麻辣香锅、煲仔饭是三大人气担当。',
   wins:'自选餐、麻辣香锅、煲仔饭、面食、小炒、卤味',
-  gram:['#F97316','#F59E0B']},
+  gram:['#0284C7','#0EA5E9']},
  {id:'e00',code:'E-00',name:'E-00 西餐厅',area:'北区 18 栋一层',tag:'西餐 · 咖啡 · 宵夜',
   hours:'早餐 7:00–9:00 ｜ 午餐 11:30–13:30 ｜ 晚餐 17:00–19:00 ｜ 宵夜 19:00–22:00',
   desc:'装修简约，有沙发卡座与吧台，适合自习、约会和小聚。供应扒类、焗饭意面、咖啡甜品，晚上还有宵夜时段。',
   wins:'黑椒牛扒、焗饭意面、汉堡炸物、咖啡、甜品、沙拉轻食',
-  gram:['#8B5CF6','#EC4899']},
+  gram:['#2563EB','#22D3EE']},
  {id:'c00',code:'C-00',name:'C-00 湖景食堂',area:'C 区 · 图书馆旁',tag:'临湖景观 · 拍照打卡',
   hours:'早茶 7:00–10:00 ｜ 午餐 11:00–13:30 ｜ 晚餐 17:00–20:00',
   desc:'环境最好的食堂，靠窗位置可以看见湖景，很多人专程来拍照。粤式早茶、烧腊、铁板烧做得精致，适合慢下来吃一顿。',
@@ -815,7 +815,16 @@ function stars(r,size){
 const D=id=>db.dishes.find(x=>x.id===id);
 const W=id=>db.windows.find(x=>x.id===id);
 const C=id=>db.canteens.find(x=>x.id===id);
-function coverOf(o){const hue=hashHue(o.id+o.name);return`linear-gradient(135deg,hsl(${hue} 88% 62%),hsl(${(hue+34)%360} 82% 48%))`}
+/* 封面配色：蓝色 / 青绿色系（按 id+名称 确定性取色，每次渲染结果一致） */
+const COVER_GRADS=[
+ 'linear-gradient(135deg,#14B8A6,#0EA5E9)',  // 青绿 → 天蓝
+ 'linear-gradient(135deg,#0EA5E9,#2563EB)',  // 天蓝 → 宝蓝
+ 'linear-gradient(135deg,#22D3EE,#14B8A6)',  // 亮青 → 青绿
+ 'linear-gradient(135deg,#0D9488,#0EA5E9)',  // 深青绿 → 天蓝
+ 'linear-gradient(135deg,#0284C7,#22D3EE)',  // 海蓝 → 亮青
+ 'linear-gradient(135deg,#0F766E,#3B82F6)'   // 墨青绿 → 蓝
+];
+function coverOf(o){return COVER_GRADS[hashHue(o.id+(o.name||''))%COVER_GRADS.length]}
 function cover(o,cls,size){
   return`<div class="cover ${cls||''}" style="background:${coverOf(o)};${size||''}"><span>${esc(String(o.name).slice(0,1))}</span></div>`;
 }
@@ -876,7 +885,7 @@ function renderNav(){
     .map(n=>`<button class="${state.view===n.v?'on':''}" data-act="go" data-view="${n.v}">${n.n}</button>`).join('');
   const p=db.profile,ntop=esc((p.nickname||'同学').slice(0,1));
   $('#ava').textContent=ntop;
-  $('#ava').style.background=isAdmin()?'linear-gradient(135deg,#8B5CF6,#EC4899)':'var(--grad)';
+  $('#ava').style.background=isAdmin()?'linear-gradient(135deg,#1E3A8A,#2563EB)':'var(--grad)';
   $('#meName').textContent=esc(p.nickname||'同学');
   $('#meRole').textContent=isAdmin()?'食堂管理员':'学生';
 }
@@ -1103,7 +1112,7 @@ dish:{
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:26px;align-items:center">
         <div>
           <h4 style="font-size:15px;font-weight:700;margin-bottom:12px">营养结构（按热量占比）</h4>
-          ${[['蛋白质',d.protein,pk,'var(--grad)'],['脂肪',d.fat,fk,'linear-gradient(90deg,#F97316,#FB923C)'],['碳水化合物',d.carb,ck,'linear-gradient(90deg,#16A085,#4FD1B0)']]
+          ${[['蛋白质',d.protein,pk,'var(--grad)'],['脂肪',d.fat,fk,'linear-gradient(90deg,#0284C7,#7DD3FC)'],['碳水化合物',d.carb,ck,'linear-gradient(90deg,#16A085,#4FD1B0)']]
             .map(([n,g,k,bg])=>`<div style="margin-bottom:11px">
               <div style="display:flex;justify-content:space-between;font-size:13px;margin-bottom:5px">
                 <span>${n} <b class="num">${g} g</b></span><span class="muted num">${Math.round(k/tk*100)}%</span>
@@ -1168,7 +1177,7 @@ rank:{
 
     ${top.length?`<div class="section-title"><div><h2>🏅 前三强</h2><div class="sub">${cid==='all'?'全校范围':esc(C(cid).name)+' 范围'}评分最高的三个窗口</div></div></div>
     <div class="grid g3">${top.map((x,i)=>`
-      <div class="card anim" style="padding:0;overflow:hidden;border:2px solid ${['#FFB020','#C0C6CC','#D99A6C'][i]};box-shadow:0 12px 30px rgba(255,122,47,.14)">
+      <div class="card anim" style="padding:0;overflow:hidden;border:2px solid ${['#0EA5E9','#7DD3FC','#5EEAD4'][i]};box-shadow:0 12px 30px rgba(14,165,233,.14)">
         <div style="padding:20px 22px 6px;display:flex;align-items:center;gap:10px">
           <span style="font-size:30px">${medal[i]}</span>
           <div><b style="font-size:18px">${esc(x.w.name)}</b><div class="tiny muted">${esc(x.c.name)} · ${esc(x.w.cat)}</div></div>
@@ -1270,7 +1279,7 @@ feedback:{
           </div>
           <p style="font-size:14.5px;color:var(--t2);line-height:1.8">${esc(f.text)}</p>
           <div style="display:flex;gap:9px;margin-top:14px;flex-wrap:wrap">
-            <input class="field" id="rp-${f.id}" placeholder="输入回复内容…" style="flex:1;min-width:220px;padding:10px 14px;border:1.5px solid rgba(255,122,47,.18);border-radius:var(--r-sm);font-size:14px;font-family:inherit;outline:none">
+            <input class="field" id="rp-${f.id}" placeholder="输入回复内容…" style="flex:1;min-width:220px;padding:10px 14px;border:1.5px solid rgba(14,165,233,.18);border-radius:var(--r-sm);font-size:14px;font-family:inherit;outline:none">
             <button class="btn green sm" data-act="reply-fb" data-id="${f.id}">✓ 受理并回复</button>
             <button class="btn ghost sm" data-act="reject-fb" data-id="${f.id}">✕ 驳回</button>
           </div>
@@ -1361,7 +1370,7 @@ stats:{
         <div class="vl" style="color:var(--info)">${cur.length?money(spent/cur.length):'¥0'}</div>
         <div class="ds">深技大均值约 ¥10–15 / 餐</div></div>
       <div class="stat amber"><div class="lb">🔥 本月摄入</div>
-        <div class="vl" style="color:#B45309">${Math.round(sum(cur.map(m=>m.kcal))/1000*10)/10}<small>千 kcal</small></div>
+        <div class="vl" style="color:#0E7490">${Math.round(sum(cur.map(m=>m.kcal))/1000*10)/10}<small>千 kcal</small></div>
         <div class="ds">日均 ${cur.length?Math.round(sum(cur.map(m=>m.kcal))/30):0} kcal</div></div>
     </div>
 
@@ -1376,11 +1385,11 @@ stats:{
       <div class="card">
         <h3 style="font-size:17px;font-weight:700;margin-bottom:16px">本月三大营养素结构</h3>
         <div style="display:flex;gap:24px;align-items:center;flex-wrap:wrap">
-          <div class="ring" style="background:conic-gradient(#FF7A2F 0 ${a}%, #F97316 ${a}% ${a+bTmp}%, #16A085 ${a+bTmp}% 100%)">
+          <div class="ring" style="background:conic-gradient(#0EA5E9 0 ${a}%, #0284C7 ${a}% ${a+bTmp}%, #16A085 ${a+bTmp}% 100%)">
             <div class="cap"><b>${Math.round(tk)}</b><small>本月 kcal</small></div>
           </div>
           <div class="legend" style="flex:1;min-width:180px">
-            ${[['蛋白质',pBlock,pk,'#FF7A2F'],['脂肪',fBlock,fk,'#F97316'],['碳水化合物',cBlock,ck,'#16A085']]
+            ${[['蛋白质',pBlock,pk,'#0EA5E9'],['脂肪',fBlock,fk,'#0284C7'],['碳水化合物',cBlock,ck,'#16A085']]
               .map(([n,g,k,color])=>`<div class="item"><span class="dot" style="background:${color}"></span>
                 <span>${n}</span><b class="num">${Math.round(g)} g · ${Math.round(k/tk*100)}%</b></div>`).join('')}
             <div class="sep" style="margin:10px 0"></div>
@@ -1393,7 +1402,7 @@ stats:{
     <div class="grid g2" style="margin-bottom:22px">
       <div class="card">
         <h3 style="font-size:17px;font-weight:700;margin-bottom:14px">本月食堂消费分布</h3>
-        ${cRows.length?cRows.map(([cid,v])=>{const c=C(cid)||{name:'未知',gram:['#FF7A2F','#FFB020']};
+        ${cRows.length?cRows.map(([cid,v])=>{const c=C(cid)||{name:'未知',gram:['#0EA5E9','#14B8A6']};
           return`<div style="margin-bottom:12px">
             <div style="display:flex;justify-content:space-between;font-size:13.5px;margin-bottom:5px">
               <span>${esc(c.name)}</span><b class="num">${money(v)}</b></div>
@@ -1421,7 +1430,7 @@ stats:{
         <div style="display:flex;align-items:center;gap:10px;margin-bottom:9px">
           <b style="font-size:14px">${esc(date)}</b>
           <span class="tiny muted">共 ${arr.length} 条 · ${money(sum(arr.map(m=>m.price)))} · ${sum(arr.map(m=>m.kcal))} kcal</span>
-          <div style="flex:1;height:1px;background:rgba(255,122,47,.13)"></div>
+          <div style="flex:1;height:1px;background:rgba(14,165,233,.13)"></div>
         </div>
         <div class="rows">${arr.map(m=>{const w=db.windows.find(x=>x.id===m.windowId);const c=w?C(w.canteenId):null;
           return`<div class="row" style="padding:11px 15px">
@@ -1462,7 +1471,7 @@ admin:{
         <div class="ds">共 ${db.dishes.length} 道（含下架）</div></div>
       <div class="stat green"><div class="lb">⭐ 今日评价</div><div class="vl" style="color:var(--green)">${revToday}</div>
         <div class="ds">累计 ${db.reviews.filter(r=>!r.removed).length} 条</div></div>
-      <div class="stat amber"><div class="lb">📮 待处理反馈</div><div class="vl" style="color:#B45309">${pending.length}</div>
+      <div class="stat amber"><div class="lb">📮 待处理反馈</div><div class="vl" style="color:#0E7490">${pending.length}</div>
         <div class="ds">共 ${db.feedbacks.length} 条反馈</div></div>
       <div class="stat blue"><div class="lb">🍚 本月打卡</div><div class="vl" style="color:var(--info)">${eatMonth}</div>
         <div class="ds">累计 ${db.meals.length} 次就餐</div></div>
@@ -1480,13 +1489,13 @@ admin:{
       </div>
       <div style="overflow:auto;max-height:460px">
         <table style="width:100%;border-collapse:collapse;font-size:13.5px;min-width:640px">
-          <thead><tr style="text-align:left;color:var(--t3);font-size:12px;border-bottom:1.5px solid rgba(255,122,47,.14)">
+          <thead><tr style="text-align:left;color:var(--t3);font-size:12px;border-bottom:1.5px solid rgba(14,165,233,.14)">
             <th style="padding:9px 10px">菜品</th><th style="padding:9px 10px">所属食堂 / 窗口</th>
             <th style="padding:9px 10px">价格</th><th style="padding:9px 10px">热量</th>
             <th style="padding:9px 10px">评分</th><th style="padding:9px 10px">状态</th><th style="padding:9px 10px;text-align:right">操作</th>
           </tr></thead>
           <tbody>${dishes.map(d=>{const w=W(d.windowId),c=C(w.canteenId),r=dishRating(d.id);
-            return`<tr style="border-bottom:1px solid rgba(255,122,47,.07);${d.removed?'opacity:.5':''}">
+            return`<tr style="border-bottom:1px solid rgba(14,165,233,.07);${d.removed?'opacity:.5':''}">
               <td style="padding:10px"><div style="display:flex;align-items:center;gap:9px">
                 <span class="cover" style="width:30px;height:30px;border-radius:9px;font-size:13px;flex-shrink:0;background:${coverOf(d)}"><span>${esc(d.name.slice(0,1))}</span></span>
                 <b>${esc(d.name)}</b></div></td>
@@ -1515,7 +1524,7 @@ admin:{
             </div>
             <p class="tiny" style="color:var(--t2);line-height:1.75">${esc(f.text)}</p>
             <div style="display:flex;gap:8px;width:100%">
-              <input id="ad-${f.id}" placeholder="回复内容…" style="flex:1;min-width:130px;padding:8px 12px;border:1.5px solid rgba(255,122,47,.18);border-radius:var(--r-sm);font-size:13px;font-family:inherit;outline:none">
+              <input id="ad-${f.id}" placeholder="回复内容…" style="flex:1;min-width:130px;padding:8px 12px;border:1.5px solid rgba(14,165,233,.18);border-radius:var(--r-sm);font-size:13px;font-family:inherit;outline:none">
               <button class="btn green sm" data-act="reply-fb" data-id="${f.id}">受理回复</button>
               <button class="btn ghost sm" data-act="reject-fb" data-id="${f.id}">驳回</button>
             </div></div>`}).join('')}</div>`:
@@ -1524,9 +1533,9 @@ admin:{
       <div class="card">
         <h2 style="font-size:18px;font-weight:700;margin-bottom:14px">🕘 处理记录 <span class="tiny muted">（${logs.length}）</span></h2>
         ${logs.length?`<div style="position:relative;padding-left:20px">
-          <div style="position:absolute;left:6px;top:6px;bottom:6px;width:2px;background:linear-gradient(180deg,var(--orange),rgba(255,176,32,.25))"></div>
+          <div style="position:absolute;left:6px;top:6px;bottom:6px;width:2px;background:linear-gradient(180deg,var(--orange),rgba(20,184,166,.25))"></div>
           ${logs.slice(0,12).map(l=>`<div style="position:relative;margin-bottom:16px">
-            <span style="position:absolute;left:-18px;top:5px;width:10px;height:10px;border-radius:50%;background:var(--grad);box-shadow:0 0 0 3px rgba(255,122,47,.14)"></span>
+            <span style="position:absolute;left:-18px;top:5px;width:10px;height:10px;border-radius:50%;background:var(--grad);box-shadow:0 0 0 3px rgba(14,165,233,.14)"></span>
             <b style="font-size:14px">${esc(l.action)} · ${esc(l.target)}</b>
             <div class="tiny muted" style="margin-top:3px">${esc(l.detail)}</div>
             <div class="tiny" style="color:var(--t3);margin-top:2px">${fmtDT(l.createdAt)}</div>
@@ -1700,7 +1709,7 @@ Object.assign(ACTIONS,{
   'add-dish'(){
     modal(`<h3>新增菜品</h3>
       <div class="field" style="margin-top:12px"><label>所属窗口</label>
-        <select id="nw" style="width:100%;padding:11px 14px;border:1.5px solid rgba(255,122,47,.18);border-radius:var(--r-sm);font-size:14px;font-family:inherit">
+        <select id="nw" style="width:100%;padding:11px 14px;border:1.5px solid rgba(14,165,233,.18);border-radius:var(--r-sm);font-size:14px;font-family:inherit">
         ${db.windows.filter(w=>!w.removed).map(w=>`<option value="${w.id}">${esc(C(w.canteenId).name)} · ${esc(w.name)}</option>`).join('')}
         </select></div>
       <div class="grid g2" style="gap:12px">
@@ -1711,7 +1720,7 @@ Object.assign(ACTIONS,{
         <div class="field" style="margin:0"><label>蛋白 g / 脂肪 g / 碳水 g</label>
           <div style="display:flex;gap:6px"><input id="npr" type="number" value="30" min="0"><input id="nf" type="number" value="25" min="0"><input id="nc" type="number" value="60" min="0"></div></div>
         <div class="field" style="margin:0"><label>供餐时段</label>
-          <select id="nm" multiple size="3" style="width:100%;padding:8px;border:1.5px solid rgba(255,122,47,.18);border-radius:var(--r-sm);font-family:inherit">
+          <select id="nm" multiple size="3" style="width:100%;padding:8px;border:1.5px solid rgba(14,165,233,.18);border-radius:var(--r-sm);font-family:inherit">
           <option value="breakfast" selected>早餐</option><option value="lunch" selected>午餐</option><option value="dinner" selected>晚餐</option><option value="supper">宵夜</option></select></div>
       </div>
       <div class="acts"><button class="btn ghost" data-act="modal-no">取消</button>
