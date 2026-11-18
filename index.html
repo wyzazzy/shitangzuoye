@@ -1701,9 +1701,10 @@ Object.assign(ACTIONS,{
     addLog('驳回反馈',`${C(w.canteenId).code} · ${w.name}`,`驳回「${f.type}」类反馈：${why.slice(0,24)}${why.length>24?'…':''}`);
     save(); closeModal(); render(); toast('已驳回该反馈','ok');
   },
-  'del-meal'(el){
+  async 'del-meal'(el){
     const i=db.meals.findIndex(m=>m.id===el.dataset.id); if(i<0)return;
     const name=db.meals[i].dishName;
+    if(!await confirmBox('删除就餐记录？',`确认删除「${esc(name)}」的这条记录吗？删除后消费与营养会立即重算。`,'确认删除',true))return;
     db.meals.splice(i,1); save(); render(); toast(`已删除「${name}」的就餐记录`);
   },
   'add-dish'(){
